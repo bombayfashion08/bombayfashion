@@ -93,7 +93,6 @@ color:black;
 text-decoration:none;
 border-radius:30px;
 font-weight:bold;
-display:inline-block;
 }
 
 /* PRODUCTS */
@@ -131,14 +130,12 @@ transform:translateY(-10px);
 .product-image{
 height:300px;
 overflow:hidden;
-background:#000;
 }
 
 .product-image img{
 width:100%;
 height:100%;
 object-fit:cover;
-display:block;
 }
 
 .product-info{
@@ -153,8 +150,6 @@ font-size:22px;
 display:flex;
 gap:10px;
 margin:10px 0;
-align-items:center;
-flex-wrap:wrap;
 }
 
 .new-price{
@@ -218,88 +213,6 @@ justify-content:center;
 font-size:30px;
 color:white;
 text-decoration:none;
-box-shadow:0 8px 20px rgba(0,0,0,0.3);
-}
-
-/* MODAL */
-.modal{
-display:none;
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.75);
-justify-content:center;
-align-items:center;
-z-index:3000;
-padding:15px;
-}
-
-.modal-content{
-background:#fff;
-color:#000;
-width:100%;
-max-width:420px;
-border-radius:18px;
-padding:20px;
-position:relative;
-}
-
-.close-btn{
-position:absolute;
-top:10px;
-right:15px;
-font-size:28px;
-cursor:pointer;
-}
-
-.modal-content h2{
-margin-bottom:15px;
-}
-
-.modal-content input,
-.modal-content select,
-.modal-content textarea{
-width:100%;
-padding:12px;
-margin:8px 0;
-border:1px solid #ccc;
-border-radius:10px;
-font-size:15px;
-}
-
-.payment-btn{
-width:100%;
-padding:12px;
-margin-top:10px;
-border:none;
-font-weight:bold;
-cursor:pointer;
-border-radius:10px;
-font-size:15px;
-}
-
-.cod{
-background:#111;
-color:#fff;
-}
-
-.upi{
-background:purple;
-color:#fff;
-}
-
-.whatsapp-order{
-background:#25D366;
-color:#fff;
-}
-
-.small-note{
-font-size:13px;
-color:#555;
-margin-top:10px;
-line-height:1.4;
 }
 
 /* MOBILE */
@@ -310,14 +223,6 @@ display:none;
 
 .hero-content h1{
 font-size:35px;
-}
-
-.hero-content p{
-font-size:16px;
-}
-
-.section-title{
-font-size:32px;
 }
 }
 </style>
@@ -348,52 +253,21 @@ font-size:32px;
 <div class="products-grid" id="productsGrid"></div>
 </section>
 
-<a href="https://wa.me/919321319778" class="whatsapp-btn" target="_blank">
+<a href="https://wa.me/919321319778" class="whatsapp-btn">
 <i class="fab fa-whatsapp"></i>
 </a>
-
-<!-- CHECKOUT MODAL -->
-<div class="modal" id="checkoutModal">
-  <div class="modal-content">
-    <span class="close-btn" onclick="closeModal()">&times;</span>
-    <h2>Checkout</h2>
-
-    <input type="text" id="custName" placeholder="Your Name" required>
-    <input type="tel" id="custPhone" placeholder="Phone Number" required>
-    <textarea id="custAddress" placeholder="Full Address" rows="3" required></textarea>
-
-    <select id="size">
-      <option value="S">Size S</option>
-      <option value="M">Size M</option>
-      <option value="L">Size L</option>
-      <option value="XL">Size XL</option>
-    </select>
-
-    <input type="number" id="qty" value="1" min="1">
-
-    <button class="payment-btn cod" onclick="cashOnDelivery()">Cash on Delivery</button>
-    <button class="payment-btn upi" onclick="payUPI()">Pay via UPI</button>
-    <button class="payment-btn whatsapp-order" onclick="orderWhatsApp()">Order on WhatsApp</button>
-
-    <div class="small-note">
-      COD and WhatsApp orders will open directly in your WhatsApp with full customer details.
-    </div>
-  </div>
-</div>
 
 <script>
 const whatsappNumber = "919321319778";
 const upiId = "mallikrehan78600@oksbi";
 
-let selectedProduct = null;
-
-const products = [
+const products=[
 {
 id:1,
 name:"Brooklyn Sweatshirt",
 price:1299,
 oldPrice:1999,
-image:"bombayfashion/images/brooklyn.jpg",
+image:"brooklyn.jpg",
 rating:4.8
 },
 {
@@ -401,7 +275,7 @@ id:2,
 name:"LA Oversized Sweatshirt",
 price:1499,
 oldPrice:2299,
-image:"bombayfashion/images/la-sweater.jpg",
+image:"la-sweater.jpg",
 rating:4.9
 },
 {
@@ -409,7 +283,7 @@ id:3,
 name:"Premium Zip Polo",
 price:1199,
 oldPrice:1799,
-image:"bombayfashion/images/zip-polo.jpg",
+image:"zip-polo.jpg",
 rating:4.7
 },
 {
@@ -417,19 +291,19 @@ id:4,
 name:"Brown Leather Jacket",
 price:2499,
 oldPrice:3499,
-image:"bombayfashion/images/brown-jacket.jpg",
+image:"brown-jacket.jpg",
 rating:5.0
 }
 ];
 
 function renderProducts(){
-const grid = document.getElementById("productsGrid");
+const grid=document.getElementById("productsGrid");
 
-grid.innerHTML = products.map(product => `
+grid.innerHTML=products.map(product=>`
 <div class="product-card">
 
 <div class="sale-badge">
-${Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100)}% OFF
+${Math.round(((product.oldPrice-product.price)/product.oldPrice)*100)}% OFF
 </div>
 
 <div class="wishlist">
@@ -450,8 +324,8 @@ ${Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100)}% OF
 
 <div>⭐ ${product.rating}</div>
 
-<button class="buy-btn" onclick="openCheckout(${product.id})">
-Buy Now
+<button class="buy-btn" onclick="orderWhatsApp('${product.name}','${product.price}')">
+Order Now
 </button>
 
 </div>
@@ -459,85 +333,57 @@ Buy Now
 `).join('');
 }
 
-function openCheckout(id){
-selectedProduct = products.find(p => p.id === id);
-document.getElementById("checkoutModal").style.display = "flex";
+function orderWhatsApp(name,price){
+
+let paymentOption = prompt(
+`Choose Payment Method:
+1 = UPI
+2 = Google Pay
+3 = Paytm
+4 = PhonePe`
+);
+
+let size = prompt("Choose Size: S, M, L, XL");
+
+if(size && paymentOption){
+
+let paymentMethod = "";
+
+if(paymentOption=="1") paymentMethod="UPI";
+if(paymentOption=="2") paymentMethod="Google Pay";
+if(paymentOption=="3") paymentMethod="Paytm";
+if(paymentOption=="4") paymentMethod="PhonePe";
+
+let amount = price;
+
+if(paymentOption=="1"){
+window.location.href=`upi://pay?pa=${upiId}&pn=BombayFashion&am=${amount}&cu=INR`;
 }
 
-function closeModal(){
-document.getElementById("checkoutModal").style.display = "none";
+if(paymentOption=="2"){
+window.location.href=`tez://upi/pay?pa=${upiId}&pn=BombayFashion&am=${amount}&cu=INR`;
 }
 
-function getOrderDetails(){
-const name = document.getElementById("custName").value.trim();
-const phone = document.getElementById("custPhone").value.trim();
-const address = document.getElementById("custAddress").value.trim();
-const size = document.getElementById("size").value;
-const qty = parseInt(document.getElementById("qty").value) || 1;
-
-if(!name || !phone || !address){
-alert("Please fill name, phone and address");
-return null;
+if(paymentOption=="3"){
+window.location.href=`paytmmp://pay?pa=${upiId}&pn=BombayFashion&am=${amount}&cu=INR`;
 }
 
-return {
-name,
-phone,
-address,
-size,
-qty,
-total: selectedProduct.price * qty
-};
+if(paymentOption=="4"){
+window.location.href=`phonepe://pay?pa=${upiId}&pn=BombayFashion&am=${amount}&cu=INR`;
 }
 
-function cashOnDelivery(){
-const o = getOrderDetails();
-if(!o) return;
+let msg=`Hi, I want to order:
+Product: ${name}
+Size: ${size.toUpperCase()}
+Price: ₹${price}
+Payment Method: ${paymentMethod}`;
 
-let msg = `COD Order:
-Product: ${selectedProduct.name}
-Size: ${o.size}
-Qty: ${o.qty}
-Total: ₹${o.total}
+let url=`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(msg)}`;
 
-Name: ${o.name}
-Phone: ${o.phone}
-Address: ${o.address}`;
+setTimeout(()=>{
+window.open(url,'_blank');
+},1000);
 
-window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(msg)}`,'_blank');
-closeModal();
-}
-
-function payUPI(){
-const o = getOrderDetails();
-if(!o) return;
-
-const upiLink = `upi://pay?pa=${upiId}&pn=Bombay Fashion&am=${o.total}&cu=INR`;
-window.location.href = upiLink;
-}
-
-function orderWhatsApp(){
-const o = getOrderDetails();
-if(!o) return;
-
-let msg = `New Order:
-Product: ${selectedProduct.name}
-Size: ${o.size}
-Qty: ${o.qty}
-Total: ₹${o.total}
-
-Name: ${o.name}
-Phone: ${o.phone}
-Address: ${o.address}`;
-
-window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(msg)}`,'_blank');
-closeModal();
-}
-
-window.onclick = function(event){
-const modal = document.getElementById("checkoutModal");
-if(event.target === modal){
-closeModal();
 }
 }
 
