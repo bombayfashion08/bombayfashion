@@ -1,1538 +1,705 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bombay Fashion</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-
-  <style>
-    .hero-bg-video{
-      position:absolute;
-      top:0;
-      left:0;
-      width:100;
-      height:100;
-      object-fit:cover;
-      z-index:-2;
-    }
-    
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-      font-family:'Poppins',sans-serif;
-      scroll-behavior:smooth;
-    }
-
-    body{
-      background:#0b0b0b;
-      color:#fff;
-      overflow-x:hidden;
-    }
-
-    a{
-      text-decoration:none;
-      color:inherit;
-    }
-
-    button{
-      cursor:pointer;
-    }
-
-    img,video{
-      display:block;
-      max-width:100%;
-    }
-
-    :root{
-      --gold:#d4af37;
-      --gold-soft:#f3d77a;
-      --dark:#0b0b0b;
-      --card:#151515;
-      --card-2:#1c1c1c;
-      --text-soft:#cfcfcf;
-      --border:rgba(212,175,55,0.18);
-      --green:#25D366;
-    }
-
-    /* LOADER */
-    #loader{
-      position:fixed;
-      inset:0;
-      background:#000;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      z-index:99999;
-      transition:opacity .6s ease, visibility .6s ease;
-    }
-
-    #loader.hide{
-      opacity:0;
-      visibility:hidden;
-    }
-
-    .loader-logo{
-      color:var(--gold);
-      font-size:34px;
-      font-weight:800;
-      letter-spacing:2px;
-      animation:pulse 1.2s infinite;
-    }
-
-    @keyframes pulse{
-      0%{transform:scale(1);opacity:.7;}
-      50%{transform:scale(1.08);opacity:1;}
-      100%{transform:scale(1);opacity:.7;}
-    }
-
-    /* HEADER */
-    header{
-      position:fixed;
-      top:0;
-      left:0;
-      width:100%;
-      z-index:1000;
-      background:rgba(0,0,0,0.45);
-      backdrop-filter:blur(10px);
-      border-bottom:1px solid rgba(255,255,255,0.08);
-      box-shadow:0 8px 30px rgba(0,0,0,0.25);
-    }
-
-    nav{
-      max-width:1250px;
-      margin:auto;
-      padding:16px 20px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:20px;
-    }
-
-    .logo{
-      font-size:30px;
-      font-weight:800;
-      color:var(--gold);
-      letter-spacing:1px;
-      text-shadow:0 0 18px rgba(212,175,55,0.25);
-      white-space:nowrap;
-    }
-
-    .nav-links{
-      list-style:none;
-      display:flex;
-      align-items:center;
-      gap:18px;
-    }
-
-    .nav-links a{
-      color:#fff;
-      font-size:15px;
-      font-weight:500;
-      transition:.25s ease;
-    }
-
-    .nav-links a:hover{
-      color:var(--gold);
-    }
-
-    .nav-call{
-      padding:10px 18px;
-      border:1px solid var(--gold);
-      border-radius:999px;
-      color:var(--gold) !important;
-    }
-
-    .nav-call:hover{
-      background:var(--gold);
-      color:#000 !important;
-    }
-
-    .cart-btn{
-      position:relative;
-      width:44px;
-      height:44px;
-      border-radius:50%;
-      border:1px solid rgba(255,255,255,0.15);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      color:#fff;
-      background:rgba(255,255,255,0.05);
-      cursor:pointer;
-    }
-
-    .cart-count{
-      position:absolute;
-      top:-6px;
-      right:-6px;
-      min-width:20px;
-      height:20px;
-      border-radius:50%;
-      background:var(--gold);
-      color:#000;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size:11px;
-      font-weight:800;
-      padding:0 5px;
-    }
-
-    /* HERO */
-    .hero{
-      position:relative;
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      text-align:center;
-      overflow:hidden;
-    }
-
-    .hero video{
-      position:absolute;
-      top:0;
-      left:0;
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      z-index:-2;
-    }
-
-    .hero-overlay{
-      position:absolute;
-      inset:0;
-      background:
-        linear-gradient(to bottom, rgba(0,0,0,0.35), rgba(0,0,0,0.82)),
-        linear-gradient(to right, rgba(0,0,0,0.2), rgba(0,0,0,0.45));
-      z-index:-1;
-    }
-
-    .hero-content{
-      max-width:900px;
-      padding:120px 20px 40px;
-    }
-
-    .hero-tag{
-      display:inline-block;
-      padding:8px 16px;
-      border:1px solid rgba(212,175,55,0.4);
-      border-radius:999px;
-      color:var(--gold-soft);
-      margin-bottom:20px;
-      font-size:14px;
-      letter-spacing:.8px;
-      background:rgba(212,175,55,0.08);
-    }
-
-    .hero-content h1{
-      font-size:68px;
-      line-height:1.05;
-      font-weight:800;
-      margin-bottom:18px;
-    }
-
-    .hero-content h1 span{
-      color:var(--gold);
-    }
-
-    .hero-content p{
-      max-width:700px;
-      margin:0 auto 28px;
-      color:#ececec;
-      font-size:18px;
-      line-height:1.7;
-    }
-
-    .hero-buttons{
-      display:flex;
-      justify-content:center;
-      gap:14px;
-      flex-wrap:wrap;
-    }
-
-    .btn{
-      padding:14px 28px;
-      border-radius:999px;
-      font-weight:700;
-      transition:.25s ease;
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      border:none;
-    }
-
-    .btn-gold{
-      background:var(--gold);
-      color:#000;
-    }
-
-    .btn-gold:hover{
-      transform:translateY(-2px);
-      box-shadow:0 10px 30px rgba(212,175,55,0.25);
-    }
-
-    .btn-outline{
-      border:1px solid rgba(255,255,255,0.25);
-      color:#fff;
-      background:rgba(255,255,255,0.06);
-    }
-
-    .btn-outline:hover{
-      border-color:var(--gold);
-      color:var(--gold);
-    }
-
-    /* FEATURED BANNER */
-    .featured-banner{
-      background:#0f0f0f;
-      overflow:hidden;
-      border-top:1px solid rgba(212,175,55,0.15);
-      border-bottom:1px solid rgba(212,175,55,0.15);
-    }
-
-    .banner-track{
-      display:flex;
-      width:300%;
-      animation:slideBanner 12s infinite;
-    }
-
-    .banner-slide{
-      width:100%;
-      flex:0 0 100%;
-      text-align:center;
-      padding:18px 20px;
-      color:var(--gold);
-      font-size:22px;
-      font-weight:700;
-      letter-spacing:1px;
-      background:linear-gradient(90deg,#111,#1a1a1a,#111);
-    }
-
-    @keyframes slideBanner{
-      0%,28%{transform:translateX(0);}
-      33%,61%{transform:translateX(-100%);}
-      66%,94%{transform:translateX(-200%);}
-      100%{transform:translateX(0);}
-    }
-
-    /* SECTION BASE */
-    .section-wrap{
-      max-width:1250px;
-      margin:auto;
-      padding:90px 20px;
-    }
-
-    .section-head{
-      text-align:center;
-      margin-bottom:42px;
-    }
-
-    .section-head span{
-      color:var(--gold);
-      font-size:14px;
-      letter-spacing:1px;
-      text-transform:uppercase;
-      display:block;
-      margin-bottom:10px;
-    }
-
-    .section-head h2{
-      font-size:42px;
-      margin-bottom:12px;
-    }
-
-    .section-head p{
-      color:var(--text-soft);
-      max-width:700px;
-      margin:auto;
-      line-height:1.7;
-    }
-
-    /* HIGHLIGHTS */
-    .highlights{
-      background:linear-gradient(180deg, #0b0b0b 0%, #111 100%);
-    }
-
-    .highlight-grid{
-      display:grid;
-      grid-template-columns:repeat(4,1fr);
-      gap:20px;
-    }
-
-    .highlight-box{
-      background:linear-gradient(180deg, #161616, #101010);
-      border:1px solid var(--border);
-      border-radius:24px;
-      padding:28px 22px;
-      text-align:center;
-      transition:.25s ease;
-    }
-
-    .highlight-box:hover{
-      transform:translateY(-6px);
-      border-color:rgba(212,175,55,0.45);
-    }
-
-    .highlight-box i{
-      font-size:26px;
-      color:var(--gold);
-      margin-bottom:14px;
-    }
-
-    .highlight-box h3{
-      font-size:19px;
-      margin-bottom:8px;
-    }
-
-    .highlight-box p{
-      color:var(--text-soft);
-      font-size:14px;
-      line-height:1.7;
-    }
-
-    /* PRODUCTS */
-    .products{
-      background:#0f0f0f;
-    }
-
-    .products-grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-      gap:28px;
-    }
-
-    .product-card{
-      background:linear-gradient(180deg, #181818 0%, #121212 100%);
-      border:1px solid rgba(255,255,255,0.05);
-      border-radius:26px;
-      overflow:hidden;
-      position:relative;
-      transition:.3s ease;
-      box-shadow:0 12px 35px rgba(0,0,0,0.25);
-    }
-
-    .product-card:hover{
-      transform:translateY(-10px);
-      border-color:rgba(212,175,55,0.45);
-      box-shadow:0 18px 45px rgba(0,0,0,0.4);
-    }
-
-    .sale-badge{
-      position:absolute;
-      top:14px;
-      left:14px;
-      background:#a90f0f;
-      color:#fff;
-      padding:7px 12px;
-      border-radius:999px;
-      font-size:12px;
-      font-weight:700;
-      z-index:3;
-    }
-
-    .wishlist{
-      position:absolute;
-      top:14px;
-      right:14px;
-      width:42px;
-      height:42px;
-      border-radius:50%;
-      background:rgba(255,255,255,0.12);
-      backdrop-filter:blur(6px);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      z-index:3;
-      color:#fff;
-    }
-
-    .product-image{
-      height:360px;
-      overflow:hidden;
-      background:#0b0b0b;
-    }
-
-    .product-image img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      transition:.5s ease;
-    }
-
-    .product-card:hover .product-image img{
-      transform:scale(1.06);
-    }
-
-    .product-info{
-      padding:22px;
-    }
-
-    .product-title{
-      font-size:22px;
-      font-weight:700;
-      margin-bottom:8px;
-    }
-
-    .product-rating{
-      color:var(--gold-soft);
-      margin-bottom:12px;
-      font-size:14px;
-    }
-
-    .price-box{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      margin-bottom:16px;
-      flex-wrap:wrap;
-    }
-
-    .new-price{
-      color:var(--gold);
-      font-size:24px;
-      font-weight:800;
-    }
-
-    .old-price{
-      text-decoration:line-through;
-      color:#777;
-      font-size:15px;
-    }
-
-    .product-actions{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:10px;
-    }
-
-    .buy-btn,
-    .cart-add-btn{
-      width:100%;
-      padding:14px;
-      border:none;
-      font-weight:800;
-      border-radius:14px;
-      cursor:pointer;
-      transition:.25s ease;
-      font-size:15px;
-    }
-
-    .buy-btn{
-      background:var(--gold);
-      color:#000;
-    }
-
-    .buy-btn:hover{
-      transform:translateY(-2px);
-      box-shadow:0 10px 25px rgba(212,175,55,0.25);
-    }
-
-    .cart-add-btn{
-      background:#232323;
-      color:#fff;
-      border:1px solid rgba(255,255,255,0.08);
-    }
-
-    /* CONTACT */
-    .contact{
-      background:linear-gradient(180deg, #111 0%, #0b0b0b 100%);
-    }
-
-    .contact-box{
-      display:grid;
-      grid-template-columns:1.1fr .9fr;
-      gap:28px;
-      align-items:stretch;
-    }
-
-    .contact-left,
-    .contact-right{
-      background:linear-gradient(180deg, #171717 0%, #101010 100%);
-      border:1px solid var(--border);
-      border-radius:26px;
-      padding:30px;
-    }
-
-    .contact-left h3,
-    .contact-right h3{
-      font-size:28px;
-      margin-bottom:12px;
-    }
-
-    .contact-left p{
-      color:var(--text-soft);
-      line-height:1.8;
-      margin-bottom:24px;
-    }
-
-    .contact-list{
-      display:grid;
-      gap:16px;
-    }
-
-    .contact-item{
-      display:flex;
-      gap:14px;
-      align-items:flex-start;
-      background:rgba(255,255,255,0.03);
-      border:1px solid rgba(255,255,255,0.05);
-      padding:16px;
-      border-radius:18px;
-    }
-
-    .contact-item i{
-      color:var(--gold);
-      font-size:20px;
-      margin-top:3px;
-      min-width:22px;
-    }
-
-    .contact-item strong{
-      display:block;
-      margin-bottom:4px;
-      font-size:16px;
-    }
-
-    .contact-item span,
-    .contact-item a{
-      color:var(--text-soft);
-      line-height:1.6;
-    }
-
-    .contact-item a:hover{
-      color:var(--gold);
-    }
-
-    .contact-right{
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-    }
-
-    .contact-right .mini-card{
-      background:rgba(212,175,55,0.07);
-      border:1px solid rgba(212,175,55,0.2);
-      border-radius:20px;
-      padding:22px;
-      margin-top:18px;
-    }
-
-    .contact-right .mini-card h4{
-      color:var(--gold);
-      margin-bottom:8px;
-      font-size:18px;
-    }
-
-    .contact-right .mini-card p{
-      color:var(--text-soft);
-      line-height:1.7;
-      font-size:14px;
-    }
-
-    /* FOOTER */
-    footer{
-      padding:26px 20px;
-      border-top:1px solid rgba(255,255,255,0.06);
-      text-align:center;
-      color:#aaa;
-      background:#080808;
-      font-size:14px;
-    }
-
-    /* WHATSAPP */
-    .whatsapp-btn{
-      position:fixed;
-      bottom:20px;
-      right:20px;
-      width:62px;
-      height:62px;
-      background:#25D366;
-      border-radius:50%;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size:31px;
-      color:white;
-      text-decoration:none;
-      box-shadow:0 12px 30px rgba(0,0,0,0.35);
-      z-index:999;
-    }
-
-    /* CART DRAWER */
-    .cart-drawer{
-      position:fixed;
-      top:0;
-      right:-430px;
-      width:100%;
-      max-width:430px;
-      height:100vh;
-      background:#111;
-      z-index:3000;
-      transition:.35s ease;
-      display:flex;
-      flex-direction:column;
-      box-shadow:-15px 0 40px rgba(0,0,0,0.45);
-    }
-
-    .cart-drawer.open{
-      right:0;
-    }
-
-    .cart-header{
-      padding:20px;
-      border-bottom:1px solid rgba(255,255,255,0.08);
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-    }
-
-    .cart-header h3{
-      font-size:24px;
-      color:var(--gold);
-    }
-
-    .close-cart{
-      font-size:28px;
-      cursor:pointer;
-    }
-
-    .cart-items{
-      flex:1;
-      overflow-y:auto;
-      padding:15px;
-    }
-
-    .cart-empty{
-      color:#bfbfbf;
-      text-align:center;
-      padding:40px 10px;
-    }
-
-    .cart-item{
-      display:flex;
-      gap:12px;
-      background:#181818;
-      border-radius:18px;
-      padding:12px;
-      margin-bottom:12px;
-    }
-
-    .cart-item img{
-      width:78px;
-      height:88px;
-      object-fit:cover;
-      border-radius:12px;
-    }
-
-    .cart-item-info{
-      flex:1;
-    }
-
-    .cart-item-info h4{
-      font-size:16px;
-      margin-bottom:6px;
-    }
-
-    .cart-item-info p{
-      color:#c9c9c9;
-      font-size:14px;
-      margin-bottom:8px;
-    }
-
-    .qty-box{
-      display:flex;
-      align-items:center;
-      gap:8px;
-      margin-bottom:8px;
-    }
-
-    .qty-box button{
-      width:28px;
-      height:28px;
-      border:none;
-      border-radius:8px;
-      background:var(--gold);
-      color:#000;
-      font-weight:800;
-    }
-
-    .remove-btn{
-      border:none;
-      background:#7c1a1a;
-      color:#fff;
-      padding:8px 12px;
-      border-radius:10px;
-      font-size:12px;
-      font-weight:700;
-    }
-
-    .cart-footer{
-      padding:20px;
-      border-top:1px solid rgba(255,255,255,0.08);
-    }
-
-    .cart-total{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      font-size:20px;
-      font-weight:800;
-      margin-bottom:14px;
-    }
-
-    .checkout-btn{
-      width:100%;
-      padding:14px;
-      border:none;
-      border-radius:14px;
-      background:var(--gold);
-      color:#000;
-      font-weight:800;
-      font-size:16px;
-    }
-
-    /* CHECKOUT MODAL */
-    .modal{
-      display:none;
-      position:fixed;
-      inset:0;
-      background:rgba(0,0,0,0.72);
-      z-index:4000;
-      align-items:center;
-      justify-content:center;
-      padding:16px;
-    }
-
-    .modal.show{
-      display:flex;
-    }
-
-    .modal-box{
-      width:100%;
-      max-width:560px;
-      background:#141414;
-      border:1px solid rgba(255,255,255,0.08);
-      border-radius:24px;
-      padding:22px;
-    }
-
-    .modal-header{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      margin-bottom:18px;
-    }
-
-    .modal-header h3{
-      color:var(--gold);
-      font-size:24px;
-    }
-
-    .close-modal{
-      font-size:28px;
-      cursor:pointer;
-    }
-
-    .summary-box{
-      background:#1a1a1a;
-      border-radius:16px;
-      padding:14px;
-      margin-bottom:16px;
-    }
-
-    .summary-box p{
-      color:#ddd;
-      margin:6px 0;
-      font-size:14px;
-    }
-
-    .form-group{
-      margin-bottom:14px;
-    }
-
-    .form-group label{
-      display:block;
-      margin-bottom:6px;
-      color:#ddd;
-      font-size:14px;
-    }
-
-    .form-group input,
-    .form-group textarea,
-    .form-group select{
-      width:100%;
-      padding:13px 14px;
-      border-radius:12px;
-      border:1px solid rgba(255,255,255,0.08);
-      background:#1e1e1e;
-      color:#fff;
-      outline:none;
-    }
-
-    .form-group textarea{
-      resize:none;
-      min-height:90px;
-    }
-
-    .payment-grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:10px;
-      margin-top:10px;
-    }
-
-    .payment-btn{
-      border:none;
-      padding:13px;
-      border-radius:12px;
-      font-weight:800;
-      font-size:14px;
-    }
-
-    .cod-btn{
-      background:#2b2b2b;
-      color:#fff;
-    }
-
-    .upi-main-btn{
-      background:var(--gold);
-      color:#000;
-    }
-
-    .upi-apps{
-      display:none;
-      grid-template-columns:1fr 1fr;
-      gap:10px;
-      margin-top:12px;
-    }
-
-    .upi-apps.show{
-      display:grid;
-    }
-
-    .upi-app{
-      border:none;
-      padding:13px;
-      border-radius:12px;
-      background:#232323;
-      color:#fff;
-      font-weight:700;
-    }
-
-    .note{
-      color:#bdbdbd;
-      font-size:13px;
-      line-height:1.6;
-      margin-top:12px;
-    }
-
-    @media(max-width:992px){
-      .hero-content h1{
-        font-size:52px;
-      }
-
-      .highlight-grid{
-        grid-template-columns:repeat(2,1fr);
-      }
-
-      .contact-box{
-        grid-template-columns:1fr;
-      }
-    }
-
-    @media(max-width:768px){
-      .nav-links{
-        display:none;
-      }
-
-      .hero-content{
-        padding-top:110px;
-      }
-
-      .hero-content h1{
-        font-size:38px;
-      }
-
-      .hero-content p{
-        font-size:15px;
-      }
-
-      .section-head h2{
-        font-size:32px;
-      }
-
-      .highlight-grid{
-        grid-template-columns:1fr;
-      }
-
-      .product-image{
-        height:300px;
-      }
-
-      .contact-left,
-      .contact-right{
-        padding:22px;
-      }
-
-      .banner-slide{
-        font-size:18px;
-      }
-
-      .product-actions,
-      .payment-grid,
-      .upi-apps{
-        grid-template-columns:1fr;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bombay Fashion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
+body{background:#f6f6f4;color:#111;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+img{display:block;max-width:100%}
+button{cursor:pointer;font-family:inherit}
+:root{--line:#e8e8e8;--muted:#6a6a6a;--green:#25D366;--danger:#b43a3a}
+
+.topbar{background:#000;color:#efc44e;text-align:center;padding:10px 14px;font-size:13px;font-weight:500}
+.header{position:sticky;top:0;z-index:1000;background:#fff;border-bottom:1px solid var(--line)}
+.header-inner{max-width:1280px;margin:auto;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.logo{font-size:28px;font-weight:600;letter-spacing:3px;text-align:center;flex:1}
+.header-side{display:flex;align-items:center;gap:8px}
+.icon-btn{width:42px;height:42px;border:none;background:transparent;border-radius:50%;position:relative;font-size:19px}
+.icon-btn:hover{background:#f3f3f3}
+.badge{position:absolute;top:3px;right:2px;background:#111;color:#fff;min-width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;padding:0 4px}
+
+.nav{background:#fff;border-bottom:1px solid var(--line)}
+.nav-inner{max-width:1280px;margin:auto;padding:0 16px;display:flex;justify-content:center;gap:28px;overflow:auto}
+.nav-inner a{padding:14px 0;white-space:nowrap;font-size:14px;font-weight:600}
+
+.hero{position:relative;overflow:hidden;background:#111}
+.hero-track{display:flex;transition:transform .5s ease}
+.hero-slide{min-width:100%;position:relative}
+.hero-slide img{width:100%;height:560px;object-fit:cover}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,.52), rgba(0,0,0,.08))}
+.hero-content{position:absolute;left:50%;bottom:36px;transform:translateX(-50%);width:min(92%,900px);text-align:center;color:#fff}
+.hero-content p{font-size:13px;letter-spacing:2px;margin-bottom:8px}
+.hero-content h1{font-size:40px;line-height:1.18;font-weight:600;margin-bottom:18px}
+.hero-actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+.hero-btn{padding:12px 24px;border:none;background:#fff;color:#111;font-size:14px;font-weight:700}
+.hero-btn.alt{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.6)}
+.hero-dots{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);display:flex;gap:8px}
+.hero-dot{width:10px;height:10px;border-radius:50%;border:none;background:rgba(255,255,255,.5)}
+.hero-dot.active{background:#fff}
+
+.section{padding:30px 14px}
+.section-wrap{max-width:1280px;margin:auto}
+.section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}
+.section-head h2{font-size:30px;font-weight:500}
+.slider-track{display:flex;gap:16px;overflow:auto;padding-bottom:6px;scroll-behavior:smooth}
+.slider-track::-webkit-scrollbar{display:none}
+
+.card{min-width:290px;max-width:290px;flex:0 0 auto;background:#fff;border:1px solid #eee}
+.card-img{position:relative;background:#eee}
+.card-img img{width:100%;height:390px;object-fit:cover}
+.sale-badge{position:absolute;top:12px;left:12px;background:#111;color:#fff;padding:7px 10px;border-radius:6px;font-size:12px;font-weight:700}
+.wish-btn{position:absolute;top:12px;right:12px;width:36px;height:36px;border:none;border-radius:50%;background:rgba(255,255,255,.92)}
+.card-body{padding:15px 10px 12px}
+.cat{font-size:12px;color:#666;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}
+.name{font-size:18px;line-height:1.45;margin-bottom:10px;min-height:78px}
+.price-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.price{font-size:18px;font-weight:700}
+.old{font-size:14px;color:#aaa;text-decoration:line-through}
+.off{font-size:14px;color:var(--danger);font-weight:600}
+
+.color-label,.size-label{font-size:13px;font-weight:600;margin:10px 0 8px}
+.options{display:flex;flex-wrap:wrap;gap:8px}
+.option-btn{border:1px solid #ddd;background:#fff;padding:8px 11px;border-radius:10px;font-size:13px}
+.option-btn.active{background:#111;color:#fff;border-color:#111}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.action-btn{border:none;border-radius:12px;padding:13px 10px;font-size:14px;font-weight:700}
+.add-btn{background:#f1f1f1;color:#111}
+.buy-btn{background:#111;color:#fff}
+
+.info-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;max-width:1280px;margin:auto;padding:0 14px 30px}
+.info-card{background:#fff;border:1px solid #ececec;border-radius:20px;padding:22px 16px;text-align:center}
+.info-card i{font-size:24px;margin-bottom:12px}
+.info-card h3{font-size:18px;margin-bottom:8px}
+.info-card p{font-size:14px;color:#666;line-height:1.65}
+
+.contact{padding:20px 14px 90px;background:#fff}
+.contact-wrap{max-width:1280px;margin:auto;display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.box{background:#fafafa;border:1px solid #ececec;border-radius:22px;padding:24px}
+.box h3{font-size:28px;margin-bottom:12px}
+.box p{color:#666;line-height:1.8}
+.list{display:grid;gap:14px;margin-top:20px}
+.item{display:flex;gap:14px;align-items:flex-start;background:#fff;border:1px solid #ececec;padding:16px;border-radius:16px}
+.item i{font-size:20px;margin-top:3px;min-width:22px}
+
+.whatsapp-btn{position:fixed;right:18px;bottom:18px;width:60px;height:60px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-size:30px;box-shadow:0 12px 30px rgba(0,0,0,.22);z-index:999}
+
+.side-panel{position:fixed;top:0;right:-430px;width:100%;max-width:430px;height:100vh;background:#fff;z-index:3000;transition:.35s ease;display:flex;flex-direction:column;box-shadow:-15px 0 40px rgba(0,0,0,.18)}
+.side-panel.open{right:0}
+.panel-header{padding:20px;border-bottom:1px solid #ececec;display:flex;justify-content:space-between;align-items:center}
+.panel-header h3{font-size:24px;font-weight:600}
+.close-btn{font-size:28px;background:none;border:none}
+.cart-items{flex:1;overflow-y:auto;padding:15px}
+.empty{color:#8a8a8a;text-align:center;padding:40px 10px}
+.cart-item{display:flex;gap:12px;background:#f8f8f8;border-radius:18px;padding:12px;margin-bottom:12px;border:1px solid #ececec}
+.cart-item img{width:78px;height:88px;object-fit:cover;border-radius:12px;background:#eee}
+.cart-item-info{flex:1}
+.cart-item-info h4{font-size:16px;line-height:1.4;margin-bottom:6px}
+.cart-item-info p{color:#666;font-size:14px;margin-bottom:6px}
+.qty-box{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.qty-box button{width:28px;height:28px;border:none;border-radius:8px;background:#111;color:#fff;font-weight:800}
+.remove-btn{border:none;background:#b43a3a;color:#fff;padding:8px 12px;border-radius:10px;font-size:12px;font-weight:700}
+.cart-footer{padding:20px;border-top:1px solid #ececec}
+.cart-total{display:flex;justify-content:space-between;align-items:center;font-size:20px;font-weight:800;margin-bottom:14px}
+.checkout-btn{width:100%;padding:14px;border:none;border-radius:14px;background:#111;color:#fff;font-weight:800;font-size:16px}
+
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.66);z-index:4000;display:none;align-items:center;justify-content:center;padding:16px}
+.modal.show{display:flex}
+.modal-box{width:100%;max-width:560px;background:#fff;border-radius:24px;padding:22px;max-height:90vh;overflow:auto}
+.modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.modal-header h3{font-size:24px;font-weight:600}
+.summary-box{background:#f7f7f7;border:1px solid #ececec;border-radius:16px;padding:14px;margin-bottom:16px}
+.summary-box p{font-size:14px;line-height:1.6;color:#444;margin:6px 0}
+.form-group{margin-bottom:14px}
+.form-group label{display:block;margin-bottom:6px;font-size:14px;font-weight:500;color:#333}
+.form-group input,.form-group textarea{width:100%;padding:13px 14px;border-radius:12px;border:1px solid #dedede;background:#fff;color:#111;outline:none;font-size:15px}
+.form-group textarea{resize:none;min-height:90px}
+.payment-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.payment-btn{border:none;padding:13px;border-radius:12px;font-weight:800;font-size:14px}
+.cod-btn{background:#ececec;color:#111}
+.upi-main-btn{background:#111;color:#fff}
+.upi-apps{display:none;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.upi-apps.show{display:grid}
+.upi-app{border:none;padding:13px;border-radius:12px;background:#f1f1f1;color:#111;font-weight:700}
+.note{color:#777;font-size:13px;line-height:1.6;margin-top:12px}
+
+footer{padding:24px 20px;border-top:1px solid #ececec;text-align:center;background:#fff;color:#777;font-size:14px}
+
+@media(max-width:900px){
+  .info-grid{grid-template-columns:repeat(2,1fr)}
+  .contact-wrap{grid-template-columns:1fr}
+}
+@media(max-width:768px){
+  .logo{font-size:18px;letter-spacing:2px}
+  .hero-slide img{height:470px}
+  .hero-content h1{font-size:28px}
+  .card{min-width:82%;max-width:82%}
+  .card-img img{height:420px}
+  .name{min-height:auto}
+  .actions,.payment-grid,.upi-apps{grid-template-columns:1fr}
+  .info-grid{grid-template-columns:1fr}
+}
+</style>
 </head>
 <body>
+<div class="topbar">Premium menswear shopping • COD + UPI available • WhatsApp order support</div>
 
-  <div id="loader">
-    <div class="loader-logo">Bombay Fashion</div>
+<header class="header">
+  <div class="header-inner">
+    <div class="header-side">
+      <button class="icon-btn" onclick="showToast('Menu ready')"><i class="fas fa-bars"></i></button>
+    </div>
+    <div class="logo">BOMBAY FASHION</div>
+    <div class="header-side">
+      <button class="icon-btn" onclick="showToast('Search can be added next')"><i class="fas fa-search"></i></button>
+      <button class="icon-btn" onclick="toggleCart()"><i class="fas fa-bag-shopping"></i><span class="badge" id="cartCount">0</span></button>
+    </div>
   </div>
+</header>
 
-  <header>
-    <nav>
-      <div class="logo">Bombay Fashion</div>
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#products">NEW IN</a>
+    <a href="#products">SHIRTS</a>
+    <a href="#products">SUMMER</a>
+    <a href="#products">POLOS</a>
+    <a href="#contact">CONTACT</a>
+  </div>
+</nav>
 
-      <ul class="nav-links">
-        <li><a href="#">Home</a></li>
-        <li><a href="#products">Shop</a></li>
-        <li><a href="#contact">Contact</a></li>
-        <li><a href="tel:+919321319778">Call</a></li>
-        <li><a href="https://www.instagram.com/im.shaikh.mallik?igsh=ZnozYnY1dnJrY3dr" target="_blank">Instagram</a></li>
-        <li><a class="nav-call" href="https://wa.me/919321319778" target="_blank">Order Now</a></li>
-        <li>
-          <div class="cart-btn" onclick="toggleCart()">
-            <i class="fas fa-bag-shopping"></i>
-            <span class="cart-count" id="cartCount">0</span>
-          </div>
-        </li>
-      </ul>
-    </nav>
-  </header>
-
-  <section class="hero">
-    <video autoplay muted loop playsinline class="hero-bg-video">
-      <source src="./hero-video.mp4?v=2" type="video/mp4">
-    </video>
-    <div class="hero-overlay"></div>
-
-    <div class="hero-content">
-      <div class="hero-tag">Premium Fashion • Mumbai</div>
-      <h1>Own the <span>Luxury Streetwear</span> Look</h1>
-      <p>
-        Bombay Fashion brings bold style, premium fits, and modern fashion pieces for people
-        who want to stand out with confidence.
-      </p>
-
-      <div class="hero-buttons">
-        <a href="#products" class="btn btn-gold"><i class="fas fa-bag-shopping"></i> Shop Collection</a>
-        <a href="#contact" class="btn btn-outline"><i class="fas fa-phone"></i> Contact Us</a>
-      </div>
-    </div>
-  </section>
-
-  <section class="featured-banner">
-    <div class="banner-track">
-      <div class="banner-slide">Premium Streetwear</div>
-      <div class="banner-slide">Luxury Collection 2026</div>
-      <div class="banner-slide">Direct WhatsApp Orders</div>
-    </div>
-  </section>
-
-  <section class="highlights">
-    <div class="section-wrap">
-      <div class="highlight-grid">
-        <div class="highlight-box">
-          <i class="fas fa-crown"></i>
-          <h3>Premium Quality</h3>
-          <p>Luxury style clothing with rich design, clean look, and premium finish.</p>
-        </div>
-
-        <div class="highlight-box">
-          <i class="fas fa-shirt"></i>
-          <h3>Trendy Collection</h3>
-          <p>Modern streetwear and fashion pieces made for a standout look.</p>
-        </div>
-
-        <div class="highlight-box">
-          <i class="fas fa-truck-fast"></i>
-          <h3>Easy Ordering</h3>
-          <p>Quick order process through WhatsApp for faster support and direct contact.</p>
-        </div>
-
-        <div class="highlight-box">
-          <i class="fas fa-location-dot"></i>
-          <h3>Mumbai Based</h3>
-          <p>Trusted local fashion brand from Vikhroli East, Tagore Nagar Group 4.</p>
+<section class="hero">
+  <div class="hero-track" id="heroTrack">
+    <div class="hero-slide">
+      <img src="images/banner1.jpg" alt="Banner 1">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <p>PREMIUM COLLECTION</p>
+        <h1>Modern Menswear For A Premium Look</h1>
+        <div class="hero-actions">
+          <a href="#products" class="hero-btn">SHOP NOW</a>
+          <button class="hero-btn alt" onclick="openWhatsAppGeneral()">ORDER ON WHATSAPP</button>
         </div>
       </div>
     </div>
-  </section>
-
-  <section class="products" id="products">
-    <div class="section-wrap">
-      <div class="section-head">
-        <span>Featured Drop</span>
-        <h2>Premium Collection</h2>
-        <p>
-          Explore our selected pieces built for style, comfort, and a premium fashion vibe.
-        </p>
-      </div>
-
-      <div class="products-grid" id="productsGrid"></div>
-    </div>
-  </section>
-
-  <section class="contact" id="contact">
-    <div class="section-wrap">
-      <div class="section-head">
-        <span>Get In Touch</span>
-        <h2>Contact Bombay Fashion</h2>
-        <p>
-          Reach us for direct orders, questions, and fashion updates.
-        </p>
-      </div>
-
-      <div class="contact-box">
-        <div class="contact-left">
-          <h3>Let’s Connect</h3>
-          <p>
-            Order directly through WhatsApp, call us for quick support, or follow our Instagram
-            for new drops and fashion updates.
-          </p>
-
-          <div class="contact-list">
-            <div class="contact-item">
-              <i class="fas fa-phone"></i>
-              <div>
-                <strong>Phone</strong>
-                <a href="tel:+919321319778">+91 9321319778</a>
-              </div>
-            </div>
-
-            <div class="contact-item">
-              <i class="fab fa-whatsapp"></i>
-              <div>
-                <strong>WhatsApp</strong>
-                <a href="https://wa.me/919321319778" target="_blank">+91 9321319778</a>
-              </div>
-            </div>
-
-            <div class="contact-item">
-              <i class="fab fa-instagram"></i>
-              <div>
-                <strong>Instagram</strong>
-                <a href="https://www.instagram.com/im.shaikh.mallik?igsh=ZnozYnY1dnJrY3dr" target="_blank">@im.shaikh.mallik</a>
-              </div>
-            </div>
-
-            <div class="contact-item">
-              <i class="fas fa-map-marker-alt"></i>
-              <div>
-                <strong>Shop Address</strong>
-                <span>Bombay Fashion, Vikhroli East, Tagore Nagar Group 4, Mumbai, Maharashtra, India</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="contact-right">
-          <h3>Why Shop With Us?</h3>
-          <p style="color:#cfcfcf; line-height:1.8;">
-            Bombay Fashion is built for customers who want stylish fashion with a premium vibe.
-            We keep the ordering process simple and direct.
-          </p>
-
-          <div class="mini-card">
-            <h4>Direct WhatsApp Orders</h4>
-            <p>
-              Customers can place orders quickly by choosing size and sending the order directly to your WhatsApp.
-            </p>
-          </div>
-
-          <div class="mini-card">
-            <h4>Add to Cart + Checkout</h4>
-            <p>
-              Customers can add multiple products to cart, then continue with COD or UPI payment.
-            </p>
-          </div>
-
-          <div class="mini-card">
-            <h4>Video Homepage Experience</h4>
-            <p>
-              A premium full-screen video hero gives your store a more modern and high-end fashion brand look.
-            </p>
-          </div>
+    <div class="hero-slide">
+      <img src="images/banner2.jpg" alt="Banner 2">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <p>SUMMER EDIT</p>
+        <h1>Fresh Shirts, Light Colors, Clean Style</h1>
+        <div class="hero-actions">
+          <a href="#products" class="hero-btn">EXPLORE</a>
+          <button class="hero-btn alt" onclick="toggleCart()">VIEW CART</button>
         </div>
       </div>
     </div>
-  </section>
+    <div class="hero-slide">
+      <img src="images/banner3.jpg" alt="Banner 3">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <p>STYLE UPGRADE</p>
+        <h1>Luxury Feel Inspired By Premium Fashion Stores</h1>
+        <div class="hero-actions">
+          <a href="#contact" class="hero-btn">CONTACT US</a>
+          <button class="hero-btn alt" onclick="openWhatsAppGeneral()">CHAT NOW</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-dots" id="heroDots"></div>
+</section>
 
-  <footer>
-    © 2026 Bombay Fashion • Premium Clothing Collection
-  </footer>
+<section class="section" id="products">
+  <div class="section-wrap">
+    <div class="section-head">
+      <h2>Featured Products</h2>
+      <div>
+        <button class="icon-btn" onclick="slideLeft('productTrack')"><i class="fas fa-chevron-left"></i></button>
+        <button class="icon-btn" onclick="slideRight('productTrack')"><i class="fas fa-chevron-right"></i></button>
+      </div>
+    </div>
+    <div class="slider-track" id="productTrack"></div>
+  </div>
+</section>
 
-  <a href="https://wa.me/919321319778" class="whatsapp-btn" target="_blank">
+<section class="info-grid">
+  <div class="info-card">
+    <i class="fas fa-shirt"></i>
+    <h3>Grouped Products</h3>
+    <p>Your similar styles are grouped into 4 clean premium product cards.</p>
+  </div>
+  <div class="info-card">
+    <i class="fas fa-ruler-combined"></i>
+    <h3>Size Options</h3>
+    <p>Customers can select S, M, L, XL, or XXL before adding to cart.</p>
+  </div>
+  <div class="info-card">
+    <i class="fas fa-credit-card"></i>
+    <h3>Checkout Ready</h3>
+    <p>Cash on Delivery and UPI options are included in the checkout popup.</p>
+  </div>
+  <div class="info-card">
     <i class="fab fa-whatsapp"></i>
-  </a>
-
-  <!-- CART DRAWER -->
-  <div class="cart-drawer" id="cartDrawer">
-    <div class="cart-header">
-      <h3>Your Cart</h3>
-      <span class="close-cart" onclick="toggleCart()">&times;</span>
-    </div>
-
-    <div class="cart-items" id="cartItems">
-      <div class="cart-empty">Your cart is empty</div>
-    </div>
-
-    <div class="cart-footer">
-      <div class="cart-total">
-        <span>Total</span>
-        <span id="cartTotal">₹0</span>
-      </div>
-      <button class="checkout-btn" onclick="openCheckout()">Proceed to Checkout</button>
-    </div>
+    <h3>WhatsApp Orders</h3>
+    <p>Selected color and size are sent in the WhatsApp order message.</p>
   </div>
+</section>
 
-  <!-- CHECKOUT MODAL -->
-  <div class="modal" id="checkoutModal">
-    <div class="modal-box">
-      <div class="modal-header">
-        <h3>Checkout</h3>
-        <span class="close-modal" onclick="closeCheckout()">&times;</span>
+<section class="contact" id="contact">
+  <div class="contact-wrap">
+    <div class="box">
+      <h3>Contact Bombay Fashion</h3>
+      <p>Reach us for direct orders, questions, and styling support.</p>
+      <div class="list">
+        <div class="item"><i class="fas fa-phone"></i><div><strong>Phone</strong><br><a href="tel:+919321319778">+91 9321319778</a></div></div>
+        <div class="item"><i class="fab fa-whatsapp"></i><div><strong>WhatsApp</strong><br><a href="https://wa.me/919321319778" target="_blank">Chat on WhatsApp</a></div></div>
+        <div class="item"><i class="fab fa-instagram"></i><div><strong>Instagram</strong><br><a href="https://www.instagram.com/im.shaikh.mallik?igsh=ZnozYnY1dnJrY3dr" target="_blank">@im.shaikh.mallik</a></div></div>
       </div>
-
-      <div class="summary-box" id="checkoutSummary"></div>
-
-      <div class="form-group">
-        <label>Your Name</label>
-        <input type="text" id="custName" placeholder="Enter your name">
-      </div>
-
-      <div class="form-group">
-        <label>Phone Number</label>
-        <input type="tel" id="custPhone" placeholder="Enter phone number">
-      </div>
-
-      <div class="form-group">
-        <label>Address</label>
-        <textarea id="custAddress" placeholder="Enter full delivery address"></textarea>
-      </div>
-
-      <div class="payment-grid">
-        <button class="payment-btn cod-btn" onclick="placeCODOrder()">Cash on Delivery</button>
-        <button class="payment-btn upi-main-btn" onclick="showUPIApps()">UPI Payment</button>
-      </div>
-
-      <div class="upi-apps" id="upiApps">
-        <button class="upi-app" onclick="payViaApp('upi')">UPI</button>
-        <button class="upi-app" onclick="payViaApp('gpay')">GPay</button>
-        <button class="upi-app" onclick="payViaApp('paytm')">Paytm</button>
-        <button class="upi-app" onclick="payViaApp('phonepe')">PhonePe</button>
-      </div>
-
-      <div class="note">
-        UPI app buttons work best on mobile. On PC, apps may not open. In that case customer can still complete the order through WhatsApp or manual UPI payment.
+    </div>
+    <div class="box">
+      <h3>Store Info</h3>
+      <p>Bombay Fashion, Vikhroli East, Tagore Nagar Group 4, Mumbai, Maharashtra, India.</p>
+      <div class="list">
+        <div class="item"><i class="fas fa-location-dot"></i><div><strong>Address</strong><br>Mumbai, Maharashtra, India</div></div>
+        <div class="item"><i class="fas fa-truck"></i><div><strong>Order Support</strong><br>Quick updates through WhatsApp</div></div>
+        <div class="item"><i class="fas fa-bag-shopping"></i><div><strong>Payments</strong><br>COD and UPI supported</div></div>
       </div>
     </div>
   </div>
+</section>
 
-  <script>
-    const whatsappNumber = "919321319778";
-    const upiId = "mallikrehan78600@oksbi";
+<footer>© 2026 Bombay Fashion • Premium Clothing Collection</footer>
 
-    const products = [
-      {
-        id:1,
-        name:"Brooklyn Sweatshirt",
-        price:1299,
-        oldPrice:1999,
-        image:"bombayfashion/images/brooklyn.jpg",
-        rating:4.8
-      },
-      {
-        id:2,
-        name:"LA Oversized Sweatshirt",
-        price:1499,
-        oldPrice:2299,
-        image:"bombayfashion/images/la-sweater.jpg",
-        rating:4.9
-      },
-      {
-        id:3,
-        name:"Premium Zip Polo",
-        price:1199,
-        oldPrice:1799,
-        image:"bombayfashion/images/zip-polo.jpg",
-        rating:4.7
-      },
-      {
-        id:4,
-        name:"Brown Leather Jacket",
-        price:2499,
-        oldPrice:3499,
-        image:"bombayfashion/images/brown-jacket.jpg",
-        rating:5.0
-      }
-    ];
+<a href="https://wa.me/919321319778" class="whatsapp-btn" target="_blank"><i class="fab fa-whatsapp"></i></a>
 
-    let cart = [];
+<aside class="side-panel" id="cartDrawer">
+  <div class="panel-header">
+    <h3>Your Cart</h3>
+    <button class="close-btn" onclick="toggleCart()">&times;</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="empty">Your cart is empty</div>
+  </div>
+  <div class="cart-footer">
+    <div class="cart-total"><span>Total</span><span id="cartTotal">₹0</span></div>
+    <button class="checkout-btn" onclick="openCheckout()">Proceed to Checkout</button>
+  </div>
+</aside>
 
-    function renderProducts(){
-      const grid = document.getElementById("productsGrid");
+<div class="modal" id="checkoutModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3>Checkout</h3>
+      <button class="close-btn" onclick="closeModal('checkoutModal')">&times;</button>
+    </div>
+    <div class="summary-box" id="checkoutSummary"></div>
+    <div class="form-group">
+      <label>Your Name</label>
+      <input type="text" id="custName" placeholder="Enter your name">
+    </div>
+    <div class="form-group">
+      <label>Phone Number</label>
+      <input type="tel" id="custPhone" placeholder="Enter phone number">
+    </div>
+    <div class="form-group">
+      <label>Address</label>
+      <textarea id="custAddress" placeholder="Enter full delivery address"></textarea>
+    </div>
+    <div class="payment-grid">
+      <button class="payment-btn cod-btn" onclick="placeCODOrder()">Cash on Delivery</button>
+      <button class="payment-btn upi-main-btn" onclick="showUPIApps()">UPI Payment</button>
+    </div>
+    <div class="upi-apps" id="upiApps">
+      <button class="upi-app" onclick="payViaApp('upi')">UPI</button>
+      <button class="upi-app" onclick="payViaApp('gpay')">GPay</button>
+      <button class="upi-app" onclick="payViaApp('paytm')">Paytm</button>
+      <button class="upi-app" onclick="payViaApp('phonepe')">PhonePe</button>
+    </div>
+    <div class="note">Selected product, color, size, and quantity will go to WhatsApp order message.</div>
+  </div>
+</div>
 
-      grid.innerHTML = products.map(product => `
-        <div class="product-card">
-          <div class="sale-badge">
-            ${Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100)}% OFF
-          </div>
+<script>
+const whatsappNumber = "919321319778";
+const upiId = "mallikrehan78600@oksbi";
 
-          <div class="wishlist">
-            <i class="fas fa-heart"></i>
-          </div>
+const products = [
+  {
+    id:1,
+    name:"Premium Casual Shirt",
+    category:"Grouped Product",
+    price:2847,
+    oldPrice:3199,
+    variants:[
+      {color:"Variant 1", image:"images/product1_color1.jpg"},
+      {color:"Variant 2", image:"images/product1_color2.jpg"},
+      {color:"Variant 3", image:"images/product1_color3.jpg"}
+    ]
+  },
+  {
+    id:2,
+    name:"Printed Summer Shirt",
+    category:"Grouped Product",
+    price:3292,
+    oldPrice:3699,
+    variants:[
+      {color:"Variant 1", image:"images/product2_color1.webp"},
+      {color:"Variant 2", image:"images/product2_color2.jpg"},
+      {color:"Variant 3", image:"images/product2_color3.jpg"}
+    ]
+  },
+  {
+    id:3,
+    name:"Premium Polo Collection",
+    category:"Grouped Product",
+    price:2199,
+    oldPrice:2599,
+    variants:[
+      {color:"Variant 1", image:"images/product3_color1.jpg"},
+      {color:"Variant 2", image:"images/product3_color2.jpg"}
+    ]
+  },
+  {
+    id:4,
+    name:"Formal Premium Shirt",
+    category:"Grouped Product",
+    price:2499,
+    oldPrice:2999,
+    variants:[
+      {color:"Variant 1", image:"images/product4_color1.jpg"},
+      {color:"Variant 2", image:"images/product4_color2.jpg"}
+    ]
+  }
+];
 
-          <div class="product-image">
-            <img src="${product.image}" alt="${product.name}">
-          </div>
+const sizes = ["S","M","L","XL","XXL"];
+let cart = [];
+let currentHero = 0;
+let heroTimer = null;
 
-          <div class="product-info">
-            <div class="product-title">${product.name}</div>
+function formatPrice(p) {
+  return p.toLocaleString("en-IN");
+}
 
-            <div class="product-rating">⭐ ${product.rating}</div>
+function getDiscount(price, oldPrice) {
+  return Math.round(((oldPrice - price) / oldPrice) * 100);
+}
 
-            <div class="price-box">
-              <span class="new-price">₹${product.price}</span>
-              <span class="old-price">₹${product.oldPrice}</span>
-            </div>
-
-            <div class="product-actions">
-              <button class="cart-add-btn" onclick="addToCart(${product.id})">Add to Cart</button>
-              <button class="buy-btn" onclick="buyNow(${product.id})">Buy Now</button>
-            </div>
-          </div>
+function renderProducts() {
+  const track = document.getElementById("productTrack");
+  track.innerHTML = products.map((p) => `
+    <div class="card">
+      <div class="card-img">
+        <span class="sale-badge">${getDiscount(p.price, p.oldPrice)}% OFF</span>
+        <button class="wish-btn" onclick="showToast('Wishlist can be added next')"><i class="far fa-heart"></i></button>
+        <img id="product-image-${p.id}" src="${p.variants[0].image}" alt="${p.name}">
+      </div>
+      <div class="card-body">
+        <div class="cat">${p.category}</div>
+        <div class="name">${p.name}</div>
+        <div class="price-row">
+          <span class="price">₹${formatPrice(p.price)}</span>
+          <span class="old">₹${formatPrice(p.oldPrice)}</span>
+          <span class="off">${getDiscount(p.price, p.oldPrice)}% OFF</span>
         </div>
-      `).join('');
-    }
 
-    function addToCart(productId){
-      const found = cart.find(item => item.id === productId);
-
-      if(found){
-        found.qty += 1;
-      } else {
-        const product = products.find(p => p.id === productId);
-        cart.push({...product, qty:1});
-      }
-
-      updateCart();
-    }
-
-    function buyNow(productId){
-      cart = [];
-      const product = products.find(p => p.id === productId);
-      cart.push({...product, qty:1});
-      updateCart();
-      openCheckout();
-    }
-
-    function updateCart(){
-      const cartItems = document.getElementById("cartItems");
-      const cartCount = document.getElementById("cartCount");
-      const cartTotal = document.getElementById("cartTotal");
-
-      cartCount.textContent = cart.reduce((sum, item) => sum + item.qty, 0);
-
-      if(cart.length === 0){
-        cartItems.innerHTML = `<div class="cart-empty">Your cart is empty</div>`;
-        cartTotal.textContent = "₹0";
-        return;
-      }
-
-      cartItems.innerHTML = cart.map(item => `
-        <div class="cart-item">
-          <img src="${item.image}" alt="${item.name}">
-          <div class="cart-item-info">
-            <h4>${item.name}</h4>
-            <p>₹${item.price}</p>
-
-            <div class="qty-box">
-              <button onclick="changeQty(${item.id}, -1)">-</button>
-              <span>${item.qty}</span>
-              <button onclick="changeQty(${item.id}, 1)">+</button>
-            </div>
-
-            <button class="remove-btn" onclick="removeItem(${item.id})">Remove</button>
-          </div>
+        <div class="color-label">Select Color</div>
+        <div class="options">
+          ${p.variants.map((v, idx) => `
+            <button class="option-btn ${idx===0 ? 'active' : ''}" id="color-${p.id}-${idx}" onclick="selectColor(${p.id}, ${idx})">
+              ${v.color}
+            </button>
+          `).join('')}
         </div>
-      `).join('');
 
-      const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
-      cartTotal.textContent = `₹${total}`;
-    }
+        <div class="size-label">Select Size</div>
+        <div class="options">
+          ${sizes.map((s, idx) => `
+            <button class="option-btn ${idx===1 ? 'active' : ''}" id="size-${p.id}-${s}" onclick="selectSize(${p.id}, '${s}')">${s}</button>
+          `).join('')}
+        </div>
 
-    function changeQty(productId, change){
-      const item = cart.find(i => i.id === productId);
-      if(!item) return;
+        <div class="actions">
+          <button class="action-btn add-btn" onclick="addToCart(${p.id})">Add to Cart</button>
+          <button class="action-btn buy-btn" onclick="buyNow(${p.id})">Buy Now</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
 
-      item.qty += change;
+const selections = {
+  1: {colorIndex:0, size:"M"},
+  2: {colorIndex:0, size:"M"},
+  3: {colorIndex:0, size:"M"},
+  4: {colorIndex:0, size:"M"}
+};
 
-      if(item.qty <= 0){
-        cart = cart.filter(i => i.id !== productId);
-      }
+function selectColor(productId, colorIndex) {
+  selections[productId].colorIndex = colorIndex;
+  const product = products.find(p => p.id === productId);
+  document.getElementById(`product-image-${productId}`).src = product.variants[colorIndex].image;
+  product.variants.forEach((_, idx) => {
+    document.getElementById(`color-${productId}-${idx}`).classList.toggle("active", idx === colorIndex);
+  });
+}
 
-      updateCart();
-    }
+function selectSize(productId, size) {
+  selections[productId].size = size;
+  sizes.forEach((s) => {
+    document.getElementById(`size-${productId}-${s}`).classList.toggle("active", s === size);
+  });
+}
 
-    function removeItem(productId){
-      cart = cart.filter(i => i.id !== productId);
-      updateCart();
-    }
+function addToCart(productId) {
+  const product = products.find(p => p.id === productId);
+  const sel = selections[productId];
+  const key = `${productId}-${sel.colorIndex}-${sel.size}`;
+  const found = cart.find(item => item.key === key);
 
-    function toggleCart(){
-      document.getElementById("cartDrawer").classList.toggle("open");
-    }
+  const itemData = {
+    key,
+    id: productId,
+    name: product.name,
+    price: product.price,
+    image: product.variants[sel.colorIndex].image,
+    color: product.variants[sel.colorIndex].color,
+    size: sel.size,
+    qty: 1
+  };
 
-    function openCheckout(){
-      if(cart.length === 0){
-        alert("Your cart is empty");
-        return;
-      }
+  if(found) {
+    found.qty += 1;
+  } else {
+    cart.push(itemData);
+  }
 
-      renderCheckoutSummary();
-      document.getElementById("checkoutModal").classList.add("show");
-    }
+  updateCart();
+  showToast("Added to cart");
+}
 
-    function closeCheckout(){
-      document.getElementById("checkoutModal").classList.remove("show");
-    }
+function buyNow(productId) {
+  cart = [];
+  addToCart(productId);
+  openCheckout();
+}
 
-    function renderCheckoutSummary(){
-      const box = document.getElementById("checkoutSummary");
-      const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+function updateCart() {
+  const count = cart.reduce((sum, item) => sum + item.qty, 0);
+  document.getElementById("cartCount").textContent = count;
 
-      box.innerHTML = `
-        ${cart.map(item => `<p>${item.name} × ${item.qty} = ₹${item.price * item.qty}</p>`).join('')}
-        <p><strong>Total: ₹${total}</strong></p>
-      `;
-    }
+  const cartItems = document.getElementById("cartItems");
+  const cartTotal = document.getElementById("cartTotal");
 
-    function validateCheckout(){
-      const name = document.getElementById("custName").value.trim();
-      const phone = document.getElementById("custPhone").value.trim();
-      const address = document.getElementById("custAddress").value.trim();
+  if(cart.length === 0) {
+    cartItems.innerHTML = `<div class="empty">Your cart is empty</div>`;
+    cartTotal.textContent = "₹0";
+    return;
+  }
 
-      if(!name || !phone || !address){
-        alert("Please fill name, phone and address");
-        return false;
-      }
+  cartItems.innerHTML = cart.map(item => `
+    <div class="cart-item">
+      <img src="${item.image}" alt="${item.name}">
+      <div class="cart-item-info">
+        <h4>${item.name}</h4>
+        <p>Color: ${item.color}</p>
+        <p>Size: ${item.size}</p>
+        <p>₹${formatPrice(item.price)}</p>
+        <div class="qty-box">
+          <button onclick="changeQty('${item.key}', -1)">-</button>
+          <span>${item.qty}</span>
+          <button onclick="changeQty('${item.key}', 1)">+</button>
+        </div>
+        <button class="remove-btn" onclick="removeItem('${item.key}')">Remove</button>
+      </div>
+    </div>
+  `).join('');
 
-      return true;
-    }
+  const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+  cartTotal.textContent = `₹${formatPrice(total)}`;
+}
 
-    function getOrderDetails(){
-      const name = document.getElementById("custName").value.trim();
-      const phone = document.getElementById("custPhone").value.trim();
-      const address = document.getElementById("custAddress").value.trim();
-      const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+function changeQty(key, change) {
+  const item = cart.find(i => i.key === key);
+  if(!item) return;
+  item.qty += change;
+  if(item.qty <= 0) {
+    cart = cart.filter(i => i.key !== key);
+  }
+  updateCart();
+}
 
-      return { name, phone, address, total };
-    }
+function removeItem(key) {
+  cart = cart.filter(i => i.key !== key);
+  updateCart();
+}
 
-    function buildOrderMessage(paymentMethod){
-      const order = getOrderDetails();
+function toggleCart() {
+  document.getElementById("cartDrawer").classList.toggle("open");
+}
 
-      return `New Order - Bombay Fashion
+function openCheckout() {
+  if(cart.length === 0) {
+    alert("Your cart is empty");
+    return;
+  }
+  renderCheckoutSummary();
+  document.getElementById("checkoutModal").classList.add("show");
+}
 
+function closeModal(id) {
+  document.getElementById(id).classList.remove("show");
+}
+
+function renderCheckoutSummary() {
+  const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+  document.getElementById("checkoutSummary").innerHTML = `
+    ${cart.map(item => `<p>${item.name} | ${item.color} | Size ${item.size} × ${item.qty} = ₹${formatPrice(item.price * item.qty)}</p>`).join('')}
+    <p><strong>Total: ₹${formatPrice(total)}</strong></p>
+  `;
+}
+
+function validateCheckout() {
+  const name = document.getElementById("custName").value.trim();
+  const phone = document.getElementById("custPhone").value.trim();
+  const address = document.getElementById("custAddress").value.trim();
+  if(!name || !phone || !address) {
+    alert("Please fill name, phone and address");
+    return false;
+  }
+  return true;
+}
+
+function getOrderDetails() {
+  return {
+    name: document.getElementById("custName").value.trim(),
+    phone: document.getElementById("custPhone").value.trim(),
+    address: document.getElementById("custAddress").value.trim(),
+    total: cart.reduce((sum, item) => sum + item.price * item.qty, 0)
+  };
+}
+
+function buildOrderMessage(paymentMethod) {
+  const order = getOrderDetails();
+  return `New Order - Bombay Fashion
 Customer Name: ${order.name}
 Phone: ${order.phone}
 Address: ${order.address}
-
 Items:
-${cart.map(item => `${item.name} x ${item.qty} = ₹${item.price * item.qty}`).join('\n')}
-
+${cart.map(item => `${item.name} | Color: ${item.color} | Size: ${item.size} | Qty: ${item.qty} = ₹${item.price * item.qty}`).join('\n')}
 Total: ₹${order.total}
 Payment Method: ${paymentMethod}`;
-    }
+}
 
-    function placeCODOrder(){
-      if(!validateCheckout()) return;
+function placeCODOrder() {
+  if(!validateCheckout()) return;
+  const msg = buildOrderMessage("Cash on Delivery");
+  window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(msg)}`, "_blank");
+}
 
-      const msg = buildOrderMessage("Cash on Delivery");
-      const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(msg)}`;
-      window.open(url, "_blank");
-    }
+function showUPIApps() {
+  if(!validateCheckout()) return;
+  document.getElementById("upiApps").classList.add("show");
+}
 
-    function showUPIApps(){
-      if(!validateCheckout()) return;
-      document.getElementById("upiApps").classList.add("show");
-    }
+function payViaApp(app) {
+  if(!validateCheckout()) return;
 
-    function payViaApp(app){
-      if(!validateCheckout()) return;
+  const order = getOrderDetails();
+  const upi = encodeURIComponent(upiId);
+  const name = encodeURIComponent("Bombay Fashion");
+  const amount = order.total;
 
-      const order = getOrderDetails();
-      const upi = encodeURIComponent(upiId);
-      const name = encodeURIComponent("Bombay Fashion");
-      const amount = order.total;
+  let paymentLink = "";
+  let paymentName = "UPI";
 
-      let paymentLink = "";
-      let paymentName = "UPI";
+  if(app === "upi") { paymentLink = `upi://pay?pa=${upi}&pn=${name}&am=${amount}&cu=INR`; paymentName = "UPI"; }
+  if(app === "gpay") { paymentLink = `tez://upi/pay?pa=${upi}&pn=${name}&am=${amount}&cu=INR`; paymentName = "Google Pay"; }
+  if(app === "paytm") { paymentLink = `paytmmp://pay?pa=${upi}&pn=${name}&am=${amount}&cu=INR`; paymentName = "Paytm"; }
+  if(app === "phonepe") { paymentLink = `phonepe://pay?pa=${upi}&pn=${name}&am=${amount}&cu=INR`; paymentName = "PhonePe"; }
 
-      if(app === "upi"){
-        paymentLink = `upi://pay?pa=${upi}&pn=${name}&am=${amount}&cu=INR`;
-        paymentName = "UPI";
-      }
-      if(app === "gpay"){
-        paymentLink = `tez://upi/pay?pa=${upi}&pn=${name}&am=${amount}&cu=INR`;
-        paymentName = "Google Pay";
-      }
-      if(app === "paytm"){
-        paymentLink = `paytmmp://pay?pa=${upi}&pn=${name}&am=${amount}&cu=INR`;
-        paymentName = "Paytm";
-      }
-      if(app === "phonepe"){
-        paymentLink = `phonepe://pay?pa=${upi}&pn=${name}&am=${amount}&cu=INR`;
-        paymentName = "PhonePe";
-      }
+  const msg = buildOrderMessage(paymentName);
+  window.location.href = paymentLink;
 
-      const msg = buildOrderMessage(paymentName);
+  setTimeout(() => {
+    window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(msg)}`, "_blank");
+  }, 1200);
+}
 
-      window.location.href = paymentLink;
+function openWhatsAppGeneral() {
+  const msg = "Hello Bombay Fashion, I want help with premium fashion products.";
+  window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(msg)}`, "_blank");
+}
 
-      setTimeout(() => {
-        window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(msg)}`, "_blank");
-      }, 1200);
-    }
+function showToast(text) {
+  const toast = document.createElement("div");
+  toast.textContent = text;
+  toast.style.position = "fixed";
+  toast.style.left = "50%";
+  toast.style.bottom = "90px";
+  toast.style.transform = "translateX(-50%)";
+  toast.style.background = "#111";
+  toast.style.color = "#fff";
+  toast.style.padding = "10px 16px";
+  toast.style.borderRadius = "999px";
+  toast.style.fontSize = "13px";
+  toast.style.zIndex = "9999";
+  toast.style.boxShadow = "0 10px 30px rgba(0,0,0,.18)";
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 1600);
+}
 
-    window.addEventListener("load", function(){
-      const loader = document.getElementById("loader");
-      setTimeout(() => {
-        loader.classList.add("hide");
-      }, 1200);
-    });
+function slideLeft(id) {
+  document.getElementById(id).scrollBy({left:-320, behavior:"smooth"});
+}
 
-    window.addEventListener("click", function(e){
-      const modal = document.getElementById("checkoutModal");
-      if(e.target === modal){
-        closeCheckout();
-      }
-    });
+function slideRight(id) {
+  document.getElementById(id).scrollBy({left:320, behavior:"smooth"});
+}
 
-    renderProducts();
-    updateCart();
-  </script>
+function renderHeroDots() {
+  const dots = document.getElementById("heroDots");
+  const slides = document.querySelectorAll(".hero-slide");
+  dots.innerHTML = Array.from(slides).map((_, i) => `<button class="hero-dot ${i===0?'active':''}" onclick="goHero(${i})"></button>`).join('');
+}
 
+function goHero(i) {
+  currentHero = i;
+  updateHero();
+  resetHeroTimer();
+}
+
+function updateHero() {
+  document.getElementById("heroTrack").style.transform = `translateX(-${currentHero * 100}%)`;
+  document.querySelectorAll(".hero-dot").forEach((d, i) => d.classList.toggle("active", i === currentHero));
+}
+
+function nextHero() {
+  const total = document.querySelectorAll(".hero-slide").length;
+  currentHero = (currentHero + 1) % total;
+  updateHero();
+}
+
+function resetHeroTimer() {
+  clearInterval(heroTimer);
+  heroTimer = setInterval(nextHero, 4000);
+}
+
+window.addEventListener("click", function(e) {
+  const modal = document.getElementById("checkoutModal");
+  if(e.target === modal) closeModal("checkoutModal");
+});
+
+renderProducts();
+updateCart();
+renderHeroDots();
+resetHeroTimer();
+</script>
 </body>
 </html>
