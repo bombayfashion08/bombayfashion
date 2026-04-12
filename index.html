@@ -10,11 +10,13 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
+html{scroll-behavior:smooth}
 body{background:#f6f6f4;color:#111;overflow-x:hidden}
 a{text-decoration:none;color:inherit}
 img{display:block;max-width:100%}
-button{cursor:pointer;font-family:inherit}
-:root{--line:#e8e8e8;--muted:#6a6a6a;--green:#25D366;--danger:#b43a3a}
+button,input,textarea{font-family:inherit}
+button{cursor:pointer}
+:root{--line:#e8e8e8;--muted:#6a6a6a;--green:#25D366;--danger:#b43a3a;--dark:#111;--soft:#f2f2f2;--gold:#efc44e}
 
 .topbar{background:#000;color:#efc44e;text-align:center;padding:10px 14px;font-size:13px;font-weight:500}
 .header{position:sticky;top:0;z-index:1000;background:#fff;border-bottom:1px solid var(--line)}
@@ -33,16 +35,22 @@ button{cursor:pointer;font-family:inherit}
 .hero-track{display:flex;transition:transform .5s ease}
 .hero-slide{min-width:100%;position:relative}
 .hero-slide img{width:100%;height:560px;object-fit:cover}
-.hero-overlay{position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,.52), rgba(0,0,0,.08))}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,.56), rgba(0,0,0,.12))}
 .hero-content{position:absolute;left:50%;bottom:36px;transform:translateX(-50%);width:min(92%,900px);text-align:center;color:#fff}
 .hero-content p{font-size:13px;letter-spacing:2px;margin-bottom:8px}
 .hero-content h1{font-size:40px;line-height:1.18;font-weight:600;margin-bottom:18px}
 .hero-actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
-.hero-btn{padding:12px 24px;border:none;background:#fff;color:#111;font-size:14px;font-weight:700}
+.hero-btn{padding:12px 24px;border:none;background:#fff;color:#111;font-size:14px;font-weight:700;border-radius:14px}
 .hero-btn.alt{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.6)}
 .hero-dots{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);display:flex;gap:8px}
 .hero-dot{width:10px;height:10px;border-radius:50%;border:none;background:rgba(255,255,255,.5)}
 .hero-dot.active{background:#fff}
+
+.quick-strip{max-width:1280px;margin:16px auto 0;padding:0 14px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.quick-card{background:#fff;border:1px solid #ececec;border-radius:18px;padding:16px;display:flex;align-items:center;gap:12px}
+.quick-card i{font-size:20px}
+.quick-card strong{display:block;font-size:15px}
+.quick-card span{display:block;font-size:13px;color:#666}
 
 .section{padding:30px 14px}
 .section-wrap{max-width:1280px;margin:auto}
@@ -51,18 +59,19 @@ button{cursor:pointer;font-family:inherit}
 .slider-track{display:flex;gap:16px;overflow:auto;padding-bottom:6px;scroll-behavior:smooth}
 .slider-track::-webkit-scrollbar{display:none}
 
-.card{min-width:290px;max-width:290px;flex:0 0 auto;background:#fff;border:1px solid #eee}
+.card{min-width:290px;max-width:290px;flex:0 0 auto;background:#fff;border:1px solid #eee;border-radius:20px;overflow:hidden}
 .card-img{position:relative;background:#eee}
 .card-img img{width:100%;height:390px;object-fit:cover}
 .sale-badge{position:absolute;top:12px;left:12px;background:#111;color:#fff;padding:7px 10px;border-radius:6px;font-size:12px;font-weight:700}
 .wish-btn{position:absolute;top:12px;right:12px;width:36px;height:36px;border:none;border-radius:50%;background:rgba(255,255,255,.92)}
-.card-body{padding:15px 10px 12px}
+.card-body{padding:15px 14px 16px}
 .cat{font-size:12px;color:#666;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}
 .name{font-size:18px;line-height:1.45;margin-bottom:10px;min-height:78px}
-.price-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.price-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px}
 .price{font-size:18px;font-weight:700}
 .old{font-size:14px;color:#aaa;text-decoration:line-through}
 .off{font-size:14px;color:var(--danger);font-weight:600}
+.online-offer{font-size:12px;color:#0c7b36;background:#edf9f0;border:1px solid #cdebd6;padding:7px 10px;border-radius:10px;margin-bottom:12px}
 
 .color-label,.size-label{font-size:13px;font-weight:600;margin:10px 0 8px}
 .options{display:flex;flex-wrap:wrap;gap:8px}
@@ -72,6 +81,9 @@ button{cursor:pointer;font-family:inherit}
 .action-btn{border:none;border-radius:12px;padding:13px 10px;font-size:14px;font-weight:700}
 .add-btn{background:#f1f1f1;color:#111}
 .buy-btn{background:#111;color:#fff}
+
+.search-summary{padding:0 14px 10px;max-width:1280px;margin:auto;color:#555;font-size:14px;display:none}
+.search-summary.show{display:block}
 
 .info-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;max-width:1280px;margin:auto;padding:0 14px 30px}
 .info-card{background:#fff;border:1px solid #ececec;border-radius:20px;padding:22px 16px;text-align:center}
@@ -87,14 +99,32 @@ button{cursor:pointer;font-family:inherit}
 .list{display:grid;gap:14px;margin-top:20px}
 .item{display:flex;gap:14px;align-items:flex-start;background:#fff;border:1px solid #ececec;padding:16px;border-radius:16px}
 .item i{font-size:20px;margin-top:3px;min-width:22px}
+.map-box{margin-top:18px;overflow:hidden;border-radius:18px;border:1px solid #ececec}
+.map-box iframe{width:100%;height:260px;border:0}
+
+footer{padding:24px 20px;border-top:1px solid #ececec;text-align:center;background:#fff;color:#777;font-size:14px}
 
 .whatsapp-btn{position:fixed;right:18px;bottom:18px;width:60px;height:60px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-size:30px;box-shadow:0 12px 30px rgba(0,0,0,.22);z-index:999}
+.backdrop{position:fixed;inset:0;background:rgba(0,0,0,.45);opacity:0;pointer-events:none;transition:.25s ease;z-index:2500}
+.backdrop.show{opacity:1;pointer-events:auto}
 
 .side-panel{position:fixed;top:0;right:-430px;width:100%;max-width:430px;height:100vh;background:#fff;z-index:3000;transition:.35s ease;display:flex;flex-direction:column;box-shadow:-15px 0 40px rgba(0,0,0,.18)}
 .side-panel.open{right:0}
+.menu-panel{left:-360px;right:auto;max-width:360px;box-shadow:15px 0 40px rgba(0,0,0,.18)}
+.menu-panel.open{left:0}
 .panel-header{padding:20px;border-bottom:1px solid #ececec;display:flex;justify-content:space-between;align-items:center}
 .panel-header h3{font-size:24px;font-weight:600}
 .close-btn{font-size:28px;background:none;border:none}
+.panel-body{padding:16px;overflow:auto;flex:1}
+.menu-list,.search-list{display:grid;gap:10px}
+.menu-link,.search-chip,.account-btn{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 16px;background:#f7f7f7;border:1px solid #ececec;border-radius:16px;font-weight:600}
+.menu-link i,.search-chip i,.account-btn i{color:#555}
+.search-box-wrap{padding:16px;border-bottom:1px solid #ececec}
+.search-box{display:flex;align-items:center;gap:10px;background:#f7f7f7;border:1px solid #ececec;border-radius:16px;padding:0 14px}
+.search-box input{width:100%;border:none;background:transparent;padding:15px 0;font-size:15px;outline:none}
+.search-meta{padding:0 16px 12px;color:#777;font-size:13px}
+.account-chip{margin:0 16px 14px;background:#fff7dd;border:1px solid #f3df87;color:#624d00;padding:12px 14px;border-radius:14px;font-size:13px;font-weight:600}
+
 .cart-items{flex:1;overflow-y:auto;padding:15px}
 .empty{color:#8a8a8a;text-align:center;padding:40px 10px}
 .cart-item{display:flex;gap:12px;background:#f8f8f8;border-radius:18px;padding:12px;margin-bottom:12px;border:1px solid #ececec}
@@ -106,7 +136,9 @@ button{cursor:pointer;font-family:inherit}
 .qty-box button{width:28px;height:28px;border:none;border-radius:8px;background:#111;color:#fff;font-weight:800}
 .remove-btn{border:none;background:#b43a3a;color:#fff;padding:8px 12px;border-radius:10px;font-size:12px;font-weight:700}
 .cart-footer{padding:20px;border-top:1px solid #ececec}
-.cart-total{display:flex;justify-content:space-between;align-items:center;font-size:20px;font-weight:800;margin-bottom:14px}
+.total-line{display:flex;justify-content:space-between;align-items:center;font-size:15px;margin-bottom:8px}
+.total-line strong{font-size:20px}
+.discount-line{color:#0c7b36}
 .checkout-btn{width:100%;padding:14px;border:none;border-radius:14px;background:#111;color:#fff;font-weight:800;font-size:16px}
 
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.66);z-index:4000;display:none;align-items:center;justify-content:center;padding:16px}
@@ -128,11 +160,12 @@ button{cursor:pointer;font-family:inherit}
 .upi-apps.show{display:grid}
 .upi-app{border:none;padding:13px;border-radius:12px;background:#f1f1f1;color:#111;font-weight:700}
 .note{color:#777;font-size:13px;line-height:1.6;margin-top:12px}
-
-footer{padding:24px 20px;border-top:1px solid #ececec;text-align:center;background:#fff;color:#777;font-size:14px}
+.fake-note{background:#fff7dd;border:1px solid #f0e0a3;border-radius:12px;padding:12px 14px;font-size:13px;color:#5e4a00;margin-bottom:12px}
+.auth-switch{text-align:center;color:#666;font-size:14px;margin-top:8px}
+.auth-switch a{color:#111;font-weight:700}
 
 @media(max-width:900px){
-  .info-grid{grid-template-columns:repeat(2,1fr)}
+  .info-grid,.quick-strip{grid-template-columns:repeat(2,1fr)}
   .contact-wrap{grid-template-columns:1fr}
 }
 @media(max-width:768px){
@@ -143,22 +176,23 @@ footer{padding:24px 20px;border-top:1px solid #ececec;text-align:center;backgrou
   .card-img img{height:420px}
   .name{min-height:auto}
   .actions,.payment-grid,.upi-apps{grid-template-columns:1fr}
-  .info-grid{grid-template-columns:1fr}
+  .info-grid,.quick-strip{grid-template-columns:1fr}
+  .nav-inner{justify-content:flex-start}
 }
 </style>
 </head>
 <body>
-<div class="topbar">Premium menswear shopping • COD + UPI available • WhatsApp order support</div>
+<div class="topbar">Premium menswear shopping • COD + UPI available • ₹50 OFF on online payment</div>
 
 <header class="header">
   <div class="header-inner">
     <div class="header-side">
-      <button class="icon-btn" onclick="showToast('Menu ready')"><i class="fas fa-bars"></i></button>
+      <button class="icon-btn" onclick="toggleMenu()" aria-label="Open menu"><i class="fas fa-bars"></i></button>
     </div>
     <div class="logo">BOMBAY FASHION</div>
     <div class="header-side">
-      <button class="icon-btn" onclick="showToast('Search can be added next')"><i class="fas fa-search"></i></button>
-      <button class="icon-btn" onclick="toggleCart()"><i class="fas fa-bag-shopping"></i><span class="badge" id="cartCount">0</span></button>
+      <button class="icon-btn" onclick="toggleSearchPanel()" aria-label="Open search"><i class="fas fa-search"></i></button>
+      <button class="icon-btn" onclick="toggleCart()" aria-label="Open cart"><i class="fas fa-bag-shopping"></i><span class="badge" id="cartCount">0</span></button>
     </div>
   </div>
 </header>
@@ -170,6 +204,7 @@ footer{padding:24px 20px;border-top:1px solid #ececec;text-align:center;backgrou
     <a href="#products">SUMMER</a>
     <a href="#products">POLOS</a>
     <a href="#contact">CONTACT</a>
+    <a href="#location">LOCATION</a>
   </div>
 </nav>
 
@@ -207,13 +242,22 @@ footer{padding:24px 20px;border-top:1px solid #ececec;text-align:center;backgrou
         <h1>Luxury Feel Inspired By Premium Fashion Stores</h1>
         <div class="hero-actions">
           <a href="#contact" class="hero-btn">CONTACT US</a>
-          <button class="hero-btn alt" onclick="openWhatsAppGeneral()">CHAT NOW</button>
+          <button class="hero-btn alt" onclick="openTrackModal()">TRACK ORDER</button>
         </div>
       </div>
     </div>
   </div>
   <div class="hero-dots" id="heroDots"></div>
 </section>
+
+<section class="quick-strip">
+  <div class="quick-card"><i class="fas fa-credit-card"></i><div><strong>₹50 Online Discount</strong><span>Applied on UPI, GPay, Paytm, PhonePe</span></div></div>
+  <div class="quick-card"><i class="fas fa-truck-fast"></i><div><strong>Easy Order Tracking</strong><span>Track through WhatsApp in one click</span></div></div>
+  <div class="quick-card"><i class="fas fa-store"></i><div><strong>Store Location</strong><span>Vikhroli East, Mumbai</span></div></div>
+  <div class="quick-card"><i class="fas fa-headset"></i><div><strong>Fast Support</strong><span>Phone, WhatsApp and Instagram</span></div></div>
+</section>
+
+<div class="search-summary" id="searchSummary"></div>
 
 <section class="section" id="products">
   <div class="section-wrap">
@@ -241,13 +285,13 @@ footer{padding:24px 20px;border-top:1px solid #ececec;text-align:center;backgrou
   </div>
   <div class="info-card">
     <i class="fas fa-credit-card"></i>
-    <h3>Checkout Ready</h3>
-    <p>Cash on Delivery and UPI options are included in the checkout popup.</p>
+    <h3>₹50 Online Payment Off</h3>
+    <p>Online payment gives ₹50 discount automatically in checkout.</p>
   </div>
   <div class="info-card">
     <i class="fab fa-whatsapp"></i>
     <h3>WhatsApp Orders</h3>
-    <p>Selected color and size are sent in the WhatsApp order message.</p>
+    <p>Selected color, size, payment type and customer details go to WhatsApp.</p>
   </div>
 </section>
 
@@ -260,15 +304,19 @@ footer{padding:24px 20px;border-top:1px solid #ececec;text-align:center;backgrou
         <div class="item"><i class="fas fa-phone"></i><div><strong>Phone</strong><br><a href="tel:+919321319778">+91 9321319778</a></div></div>
         <div class="item"><i class="fab fa-whatsapp"></i><div><strong>WhatsApp</strong><br><a href="https://wa.me/919321319778" target="_blank">Chat on WhatsApp</a></div></div>
         <div class="item"><i class="fab fa-instagram"></i><div><strong>Instagram</strong><br><a href="https://www.instagram.com/im.shaikh.mallik?igsh=ZnozYnY1dnJrY3dr" target="_blank">@im.shaikh.mallik</a></div></div>
+        <div class="item"><i class="fas fa-user"></i><div><strong>Account</strong><br><a href="javascript:void(0)" onclick="openAuthModal('login')">Login / Sign Up</a></div></div>
       </div>
     </div>
-    <div class="box">
+    <div class="box" id="location">
       <h3>Store Info</h3>
       <p>Bombay Fashion, Vikhroli East, Tagore Nagar Group 4, Mumbai, Maharashtra, India.</p>
       <div class="list">
-        <div class="item"><i class="fas fa-location-dot"></i><div><strong>Address</strong><br>Mumbai, Maharashtra, India</div></div>
-        <div class="item"><i class="fas fa-truck"></i><div><strong>Order Support</strong><br>Quick updates through WhatsApp</div></div>
-        <div class="item"><i class="fas fa-bag-shopping"></i><div><strong>Payments</strong><br>COD and UPI supported</div></div>
+        <div class="item"><i class="fas fa-location-dot"></i><div><strong>Address</strong><br>Vikhroli East, Tagore Nagar Group 4, Mumbai, Maharashtra, India</div></div>
+        <div class="item"><i class="fas fa-truck"></i><div><strong>Order Support</strong><br>Quick updates through WhatsApp and phone</div></div>
+        <div class="item"><i class="fas fa-bag-shopping"></i><div><strong>Payments</strong><br>COD and UPI supported with ₹50 off on online payment</div></div>
+      </div>
+      <div class="map-box">
+        <iframe loading="lazy" allowfullscreen src="https://www.google.com/maps?q=Vikhroli%20East%20Tagore%20Nagar%20Mumbai&output=embed"></iframe>
       </div>
     </div>
   </div>
@@ -276,7 +324,44 @@ footer{padding:24px 20px;border-top:1px solid #ececec;text-align:center;backgrou
 
 <footer>© 2026 Bombay Fashion • Premium Clothing Collection</footer>
 
-<a href="https://wa.me/919321319778" class="whatsapp-btn" target="_blank"><i class="fab fa-whatsapp"></i></a>
+<a href="https://wa.me/919321319778" class="whatsapp-btn" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+<div class="backdrop" id="backdrop" onclick="closeAllPanels()"></div>
+
+<aside class="side-panel menu-panel" id="menuDrawer">
+  <div class="panel-header">
+    <h3>Menu</h3>
+    <button class="close-btn" onclick="toggleMenu()">&times;</button>
+  </div>
+  <div class="account-chip" id="accountChip">Guest account</div>
+  <div class="panel-body">
+    <div class="menu-list">
+      <a href="#products" class="menu-link" onclick="closeAllPanels()"><span>Shop All Products</span><i class="fas fa-angle-right"></i></a>
+      <a href="javascript:void(0)" class="menu-link" onclick="openAuthModal('login')"><span>Login / Sign Up</span><i class="fas fa-user"></i></a>
+      <a href="javascript:void(0)" class="menu-link" onclick="openTrackModal()"><span>Track Your Order</span><i class="fas fa-box"></i></a>
+      <a href="#location" class="menu-link" onclick="closeAllPanels()"><span>Shop Location</span><i class="fas fa-location-dot"></i></a>
+      <a href="#contact" class="menu-link" onclick="closeAllPanels()"><span>Shop Contact</span><i class="fas fa-phone"></i></a>
+      <a href="javascript:void(0)" class="menu-link" onclick="toggleSearchPanel()"><span>Search Products</span><i class="fas fa-search"></i></a>
+      <a href="javascript:void(0)" class="menu-link" onclick="openWhatsAppGeneral()"><span>Chat on WhatsApp</span><i class="fab fa-whatsapp"></i></a>
+    </div>
+  </div>
+</aside>
+
+<aside class="side-panel" id="searchDrawer">
+  <div class="panel-header">
+    <h3>Search</h3>
+    <button class="close-btn" onclick="toggleSearchPanel()">&times;</button>
+  </div>
+  <div class="search-box-wrap">
+    <div class="search-box">
+      <i class="fas fa-search"></i>
+      <input type="text" id="searchInput" placeholder="Search shirts, polos, formal..." oninput="handleSearch(this.value)">
+    </div>
+  </div>
+  <div class="search-meta">Try: shirt, polo, formal, casual, summer</div>
+  <div class="panel-body">
+    <div class="search-list" id="searchResults"></div>
+  </div>
+</aside>
 
 <aside class="side-panel" id="cartDrawer">
   <div class="panel-header">
@@ -287,7 +372,9 @@ footer{padding:24px 20px;border-top:1px solid #ececec;text-align:center;backgrou
     <div class="empty">Your cart is empty</div>
   </div>
   <div class="cart-footer">
-    <div class="cart-total"><span>Total</span><span id="cartTotal">₹0</span></div>
+    <div class="total-line"><span>Subtotal</span><span id="cartSubtotal">₹0</span></div>
+    <div class="total-line discount-line"><span>Online Payment Discount</span><span>₹50</span></div>
+    <div class="total-line"><strong>Total</strong><strong id="cartTotal">₹0</strong></div>
     <button class="checkout-btn" onclick="openCheckout()">Proceed to Checkout</button>
   </div>
 </aside>
@@ -298,6 +385,7 @@ footer{padding:24px 20px;border-top:1px solid #ececec;text-align:center;backgrou
       <h3>Checkout</h3>
       <button class="close-btn" onclick="closeModal('checkoutModal')">&times;</button>
     </div>
+    <div class="fake-note">Online payment users get flat ₹50 off.</div>
     <div class="summary-box" id="checkoutSummary"></div>
     <div class="form-group">
       <label>Your Name</label>
@@ -313,7 +401,7 @@ footer{padding:24px 20px;border-top:1px solid #ececec;text-align:center;backgrou
     </div>
     <div class="payment-grid">
       <button class="payment-btn cod-btn" onclick="placeCODOrder()">Cash on Delivery</button>
-      <button class="payment-btn upi-main-btn" onclick="showUPIApps()">UPI Payment</button>
+      <button class="payment-btn upi-main-btn" onclick="showUPIApps()">Online Payment</button>
     </div>
     <div class="upi-apps" id="upiApps">
       <button class="upi-app" onclick="payViaApp('upi')">UPI</button>
@@ -321,13 +409,56 @@ footer{padding:24px 20px;border-top:1px solid #ececec;text-align:center;backgrou
       <button class="upi-app" onclick="payViaApp('paytm')">Paytm</button>
       <button class="upi-app" onclick="payViaApp('phonepe')">PhonePe</button>
     </div>
-    <div class="note">Selected product, color, size, and quantity will go to WhatsApp order message.</div>
+    <div class="note">Selected product, color, size, quantity and discount will go to WhatsApp order message.</div>
+  </div>
+</div>
+
+<div class="modal" id="authModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 id="authTitle">Login</h3>
+      <button class="close-btn" onclick="closeModal('authModal')">&times;</button>
+    </div>
+    <div class="form-group">
+      <label>Name</label>
+      <input type="text" id="authName" placeholder="Enter your name">
+    </div>
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" id="authEmail" placeholder="Enter your email">
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="authPassword" placeholder="Enter password">
+    </div>
+    <button class="checkout-btn" onclick="submitAuth()" id="authSubmitBtn">Login</button>
+    <div class="auth-switch" id="authSwitchText">No account? <a href="javascript:void(0)" onclick="switchAuthMode('signup')">Create one</a></div>
+  </div>
+</div>
+
+<div class="modal" id="trackModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3>Track Your Order</h3>
+      <button class="close-btn" onclick="closeModal('trackModal')">&times;</button>
+    </div>
+    <div class="fake-note">This opens WhatsApp with your order details so the store can update you fast.</div>
+    <div class="form-group">
+      <label>Order ID</label>
+      <input type="text" id="trackOrderId" placeholder="Example: BF1234">
+    </div>
+    <div class="form-group">
+      <label>Phone Number</label>
+      <input type="tel" id="trackPhone" placeholder="Enter your phone number">
+    </div>
+    <button class="checkout-btn" onclick="sendTrackRequest()">Track on WhatsApp</button>
   </div>
 </div>
 
 <script>
 const whatsappNumber = "919321319778";
 const upiId = "mallikrehan78600@oksbi";
+const onlineDiscount = 50;
 
 const products = [
   {
@@ -382,23 +513,33 @@ const sizes = ["S","M","L","XL","XXL"];
 let cart = [];
 let currentHero = 0;
 let heroTimer = null;
+let authMode = "login";
+let filteredProducts = [...products];
 
-function formatPrice(p) {
-  return p.toLocaleString("en-IN");
-}
+const selections = {
+  1: {colorIndex:0, size:"M"},
+  2: {colorIndex:0, size:"M"},
+  3: {colorIndex:0, size:"M"},
+  4: {colorIndex:0, size:"M"}
+};
 
-function getDiscount(price, oldPrice) {
-  return Math.round(((oldPrice - price) / oldPrice) * 100);
-}
+function formatPrice(p) { return Number(p).toLocaleString("en-IN"); }
+function getDiscount(price, oldPrice) { return Math.round(((oldPrice - price) / oldPrice) * 100); }
+function getSubtotal() { return cart.reduce((sum, item) => sum + item.price * item.qty, 0); }
+function getOnlineTotal() { return Math.max(0, getSubtotal() - onlineDiscount); }
 
-function renderProducts() {
+function renderProducts(list = filteredProducts) {
   const track = document.getElementById("productTrack");
-  track.innerHTML = products.map((p) => `
-    <div class="card">
+  if(!list.length){
+    track.innerHTML = `<div class="box" style="min-width:100%"><h3>No products found</h3><p>Try another search word.</p></div>`;
+    return;
+  }
+  track.innerHTML = list.map((p) => `
+    <div class="card" data-product-id="${p.id}">
       <div class="card-img">
         <span class="sale-badge">${getDiscount(p.price, p.oldPrice)}% OFF</span>
-        <button class="wish-btn" onclick="showToast('Wishlist can be added next')"><i class="far fa-heart"></i></button>
-        <img id="product-image-${p.id}" src="${p.variants[0].image}" alt="${p.name}">
+        <button class="wish-btn" onclick="showToast('Wishlist can be added later')"><i class="far fa-heart"></i></button>
+        <img id="product-image-${p.id}" src="${p.variants[selections[p.id].colorIndex].image}" alt="${p.name}">
       </div>
       <div class="card-body">
         <div class="cat">${p.category}</div>
@@ -408,23 +549,19 @@ function renderProducts() {
           <span class="old">₹${formatPrice(p.oldPrice)}</span>
           <span class="off">${getDiscount(p.price, p.oldPrice)}% OFF</span>
         </div>
-
+        <div class="online-offer">Pay online and save ₹50 on total order</div>
         <div class="color-label">Select Color</div>
         <div class="options">
           ${p.variants.map((v, idx) => `
-            <button class="option-btn ${idx===0 ? 'active' : ''}" id="color-${p.id}-${idx}" onclick="selectColor(${p.id}, ${idx})">
-              ${v.color}
-            </button>
+            <button class="option-btn ${idx===selections[p.id].colorIndex ? 'active' : ''}" id="color-${p.id}-${idx}" onclick="selectColor(${p.id}, ${idx})">${v.color}</button>
           `).join('')}
         </div>
-
         <div class="size-label">Select Size</div>
         <div class="options">
-          ${sizes.map((s, idx) => `
-            <button class="option-btn ${idx===1 ? 'active' : ''}" id="size-${p.id}-${s}" onclick="selectSize(${p.id}, '${s}')">${s}</button>
+          ${sizes.map((s) => `
+            <button class="option-btn ${s===selections[p.id].size ? 'active' : ''}" id="size-${p.id}-${s}" onclick="selectSize(${p.id}, '${s}')">${s}</button>
           `).join('')}
         </div>
-
         <div class="actions">
           <button class="action-btn add-btn" onclick="addToCart(${p.id})">Add to Cart</button>
           <button class="action-btn buy-btn" onclick="buyNow(${p.id})">Buy Now</button>
@@ -434,27 +571,14 @@ function renderProducts() {
   `).join('');
 }
 
-const selections = {
-  1: {colorIndex:0, size:"M"},
-  2: {colorIndex:0, size:"M"},
-  3: {colorIndex:0, size:"M"},
-  4: {colorIndex:0, size:"M"}
-};
-
 function selectColor(productId, colorIndex) {
   selections[productId].colorIndex = colorIndex;
-  const product = products.find(p => p.id === productId);
-  document.getElementById(`product-image-${productId}`).src = product.variants[colorIndex].image;
-  product.variants.forEach((_, idx) => {
-    document.getElementById(`color-${productId}-${idx}`).classList.toggle("active", idx === colorIndex);
-  });
+  renderProducts();
 }
 
 function selectSize(productId, size) {
   selections[productId].size = size;
-  sizes.forEach((s) => {
-    document.getElementById(`size-${productId}-${s}`).classList.toggle("active", s === size);
-  });
+  renderProducts();
 }
 
 function addToCart(productId) {
@@ -462,7 +586,6 @@ function addToCart(productId) {
   const sel = selections[productId];
   const key = `${productId}-${sel.colorIndex}-${sel.size}`;
   const found = cart.find(item => item.key === key);
-
   const itemData = {
     key,
     id: productId,
@@ -473,13 +596,8 @@ function addToCart(productId) {
     size: sel.size,
     qty: 1
   };
-
-  if(found) {
-    found.qty += 1;
-  } else {
-    cart.push(itemData);
-  }
-
+  if(found) found.qty += 1;
+  else cart.push(itemData);
   updateCart();
   showToast("Added to cart");
 }
@@ -493,16 +611,15 @@ function buyNow(productId) {
 function updateCart() {
   const count = cart.reduce((sum, item) => sum + item.qty, 0);
   document.getElementById("cartCount").textContent = count;
-
   const cartItems = document.getElementById("cartItems");
+  const cartSubtotal = document.getElementById("cartSubtotal");
   const cartTotal = document.getElementById("cartTotal");
-
   if(cart.length === 0) {
     cartItems.innerHTML = `<div class="empty">Your cart is empty</div>`;
+    cartSubtotal.textContent = "₹0";
     cartTotal.textContent = "₹0";
     return;
   }
-
   cartItems.innerHTML = cart.map(item => `
     <div class="cart-item">
       <img src="${item.image}" alt="${item.name}">
@@ -520,18 +637,15 @@ function updateCart() {
       </div>
     </div>
   `).join('');
-
-  const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
-  cartTotal.textContent = `₹${formatPrice(total)}`;
+  cartSubtotal.textContent = `₹${formatPrice(getSubtotal())}`;
+  cartTotal.textContent = `₹${formatPrice(getSubtotal())}`;
 }
 
 function changeQty(key, change) {
   const item = cart.find(i => i.key === key);
   if(!item) return;
   item.qty += change;
-  if(item.qty <= 0) {
-    cart = cart.filter(i => i.key !== key);
-  }
+  if(item.qty <= 0) cart = cart.filter(i => i.key !== key);
   updateCart();
 }
 
@@ -540,8 +654,43 @@ function removeItem(key) {
   updateCart();
 }
 
+function toggleBackdrop(show) {
+  document.getElementById("backdrop").classList.toggle("show", show);
+}
+
+function closeAllPanels() {
+  document.getElementById("cartDrawer").classList.remove("open");
+  document.getElementById("menuDrawer").classList.remove("open");
+  document.getElementById("searchDrawer").classList.remove("open");
+  toggleBackdrop(false);
+}
+
 function toggleCart() {
-  document.getElementById("cartDrawer").classList.toggle("open");
+  const el = document.getElementById("cartDrawer");
+  const open = !el.classList.contains("open");
+  closeAllPanels();
+  el.classList.toggle("open", open);
+  toggleBackdrop(open);
+}
+
+function toggleMenu() {
+  const el = document.getElementById("menuDrawer");
+  const open = !el.classList.contains("open");
+  closeAllPanels();
+  el.classList.toggle("open", open);
+  toggleBackdrop(open);
+}
+
+function toggleSearchPanel() {
+  const el = document.getElementById("searchDrawer");
+  const open = !el.classList.contains("open");
+  closeAllPanels();
+  el.classList.toggle("open", open);
+  toggleBackdrop(open);
+  if(open) {
+    renderSearchResults(products);
+    setTimeout(() => document.getElementById("searchInput").focus(), 50);
+  }
 }
 
 function openCheckout() {
@@ -558,10 +707,12 @@ function closeModal(id) {
 }
 
 function renderCheckoutSummary() {
-  const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+  const subtotal = getSubtotal();
+  const onlineTotal = getOnlineTotal();
   document.getElementById("checkoutSummary").innerHTML = `
     ${cart.map(item => `<p>${item.name} | ${item.color} | Size ${item.size} × ${item.qty} = ₹${formatPrice(item.price * item.qty)}</p>`).join('')}
-    <p><strong>Total: ₹${formatPrice(total)}</strong></p>
+    <p><strong>Subtotal: ₹${formatPrice(subtotal)}</strong></p>
+    <p style="color:#0c7b36"><strong>Online Payment Total after ₹50 off: ₹${formatPrice(onlineTotal)}</strong></p>
   `;
 }
 
@@ -581,25 +732,19 @@ function getOrderDetails() {
     name: document.getElementById("custName").value.trim(),
     phone: document.getElementById("custPhone").value.trim(),
     address: document.getElementById("custAddress").value.trim(),
-    total: cart.reduce((sum, item) => sum + item.price * item.qty, 0)
+    subtotal: getSubtotal(),
+    onlineTotal: getOnlineTotal()
   };
 }
 
-function buildOrderMessage(paymentMethod) {
+function buildOrderMessage(paymentMethod, totalAmount, discountApplied) {
   const order = getOrderDetails();
-  return `New Order - Bombay Fashion
-Customer Name: ${order.name}
-Phone: ${order.phone}
-Address: ${order.address}
-Items:
-${cart.map(item => `${item.name} | Color: ${item.color} | Size: ${item.size} | Qty: ${item.qty} = ₹${item.price * item.qty}`).join('\n')}
-Total: ₹${order.total}
-Payment Method: ${paymentMethod}`;
+  return `New Order - Bombay Fashion\nCustomer Name: ${order.name}\nPhone: ${order.phone}\nAddress: ${order.address}\nItems:\n${cart.map(item => `${item.name} | Color: ${item.color} | Size: ${item.size} | Qty: ${item.qty} = ₹${item.price * item.qty}`).join('\n')}\nSubtotal: ₹${order.subtotal}\nDiscount: ₹${discountApplied}\nTotal Payable: ₹${totalAmount}\nPayment Method: ${paymentMethod}`;
 }
 
 function placeCODOrder() {
   if(!validateCheckout()) return;
-  const msg = buildOrderMessage("Cash on Delivery");
+  const msg = buildOrderMessage("Cash on Delivery", getSubtotal(), 0);
   window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(msg)}`, "_blank");
 }
 
@@ -610,23 +755,18 @@ function showUPIApps() {
 
 function payViaApp(app) {
   if(!validateCheckout()) return;
-
   const order = getOrderDetails();
   const upi = encodeURIComponent(upiId);
   const name = encodeURIComponent("Bombay Fashion");
-  const amount = order.total;
-
+  const amount = order.onlineTotal;
   let paymentLink = "";
   let paymentName = "UPI";
-
   if(app === "upi") { paymentLink = `upi://pay?pa=${upi}&pn=${name}&am=${amount}&cu=INR`; paymentName = "UPI"; }
   if(app === "gpay") { paymentLink = `tez://upi/pay?pa=${upi}&pn=${name}&am=${amount}&cu=INR`; paymentName = "Google Pay"; }
   if(app === "paytm") { paymentLink = `paytmmp://pay?pa=${upi}&pn=${name}&am=${amount}&cu=INR`; paymentName = "Paytm"; }
   if(app === "phonepe") { paymentLink = `phonepe://pay?pa=${upi}&pn=${name}&am=${amount}&cu=INR`; paymentName = "PhonePe"; }
-
-  const msg = buildOrderMessage(paymentName);
+  const msg = buildOrderMessage(paymentName, amount, onlineDiscount);
   window.location.href = paymentLink;
-
   setTimeout(() => {
     window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(msg)}`, "_blank");
   }, 1200);
@@ -635,6 +775,111 @@ function payViaApp(app) {
 function openWhatsAppGeneral() {
   const msg = "Hello Bombay Fashion, I want help with premium fashion products.";
   window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(msg)}`, "_blank");
+}
+
+function openAuthModal(mode = "login") {
+  closeAllPanels();
+  switchAuthMode(mode);
+  document.getElementById("authModal").classList.add("show");
+}
+
+function switchAuthMode(mode) {
+  authMode = mode;
+  document.getElementById("authTitle").textContent = mode === "login" ? "Login" : "Sign Up";
+  document.getElementById("authSubmitBtn").textContent = mode === "login" ? "Login" : "Create Account";
+  document.getElementById("authSwitchText").innerHTML = mode === "login"
+    ? `No account? <a href="javascript:void(0)" onclick="switchAuthMode('signup')">Create one</a>`
+    : `Already have account? <a href="javascript:void(0)" onclick="switchAuthMode('login')">Login</a>`;
+}
+
+function submitAuth() {
+  const name = document.getElementById("authName").value.trim();
+  const email = document.getElementById("authEmail").value.trim();
+  const password = document.getElementById("authPassword").value.trim();
+  if(!email || !password || (authMode === "signup" && !name)) {
+    alert("Please fill all required fields");
+    return;
+  }
+  const displayName = name || email.split('@')[0];
+  localStorage.setItem("bombayFashionUser", JSON.stringify({name: displayName, email}));
+  updateAccountUI();
+  closeModal("authModal");
+  showToast(authMode === "login" ? "Logged in successfully" : "Account created successfully");
+}
+
+function updateAccountUI() {
+  const saved = localStorage.getItem("bombayFashionUser");
+  const chip = document.getElementById("accountChip");
+  if(saved) {
+    try {
+      const user = JSON.parse(saved);
+      chip.textContent = `Logged in as ${user.name}`;
+    } catch {
+      chip.textContent = "Guest account";
+    }
+  } else {
+    chip.textContent = "Guest account";
+  }
+}
+
+function openTrackModal() {
+  closeAllPanels();
+  document.getElementById("trackModal").classList.add("show");
+}
+
+function sendTrackRequest() {
+  const orderId = document.getElementById("trackOrderId").value.trim();
+  const phone = document.getElementById("trackPhone").value.trim();
+  if(!orderId || !phone) {
+    alert("Please enter order ID and phone number");
+    return;
+  }
+  const msg = `Hello Bombay Fashion, I want to track my order. Order ID: ${orderId}. Phone: ${phone}.`;
+  window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(msg)}`, "_blank");
+}
+
+function renderSearchResults(list) {
+  const box = document.getElementById("searchResults");
+  if(!list.length){
+    box.innerHTML = `<div class="empty">No matching products found</div>`;
+    return;
+  }
+  box.innerHTML = list.map(product => `
+    <button class="search-chip" onclick="jumpToProduct(${product.id})">
+      <span>${product.name}</span>
+      <i class="fas fa-arrow-right"></i>
+    </button>
+  `).join('');
+}
+
+function handleSearch(value) {
+  const term = value.trim().toLowerCase();
+  filteredProducts = !term ? [...products] : products.filter(product => {
+    const full = `${product.name} ${product.category} ${product.variants.map(v => v.color).join(' ')}`.toLowerCase();
+    return full.includes(term);
+  });
+  renderSearchResults(filteredProducts);
+  renderProducts(filteredProducts);
+  const summary = document.getElementById("searchSummary");
+  if(term) {
+    summary.classList.add("show");
+    summary.textContent = `${filteredProducts.length} product(s) found for "${value}"`;
+  } else {
+    summary.classList.remove("show");
+    summary.textContent = "";
+  }
+}
+
+function jumpToProduct(productId) {
+  closeAllPanels();
+  filteredProducts = [...products];
+  renderProducts();
+  document.getElementById("searchInput").value = "";
+  document.getElementById("searchSummary").classList.remove("show");
+  setTimeout(() => {
+    const card = document.querySelector(`[data-product-id="${productId}"]`);
+    if(card) card.scrollIntoView({behavior:"smooth", block:"center", inline:"center"});
+  }, 100);
 }
 
 function showToast(text) {
@@ -652,16 +897,11 @@ function showToast(text) {
   toast.style.zIndex = "9999";
   toast.style.boxShadow = "0 10px 30px rgba(0,0,0,.18)";
   document.body.appendChild(toast);
-  setTimeout(() => toast.remove(), 1600);
+  setTimeout(() => toast.remove(), 1800);
 }
 
-function slideLeft(id) {
-  document.getElementById(id).scrollBy({left:-320, behavior:"smooth"});
-}
-
-function slideRight(id) {
-  document.getElementById(id).scrollBy({left:320, behavior:"smooth"});
-}
+function slideLeft(id) { document.getElementById(id).scrollBy({left:-320, behavior:"smooth"}); }
+function slideRight(id) { document.getElementById(id).scrollBy({left:320, behavior:"smooth"}); }
 
 function renderHeroDots() {
   const dots = document.getElementById("heroDots");
@@ -669,37 +909,36 @@ function renderHeroDots() {
   dots.innerHTML = Array.from(slides).map((_, i) => `<button class="hero-dot ${i===0?'active':''}" onclick="goHero(${i})"></button>`).join('');
 }
 
-function goHero(i) {
-  currentHero = i;
-  updateHero();
-  resetHeroTimer();
-}
-
+function goHero(i) { currentHero = i; updateHero(); resetHeroTimer(); }
 function updateHero() {
   document.getElementById("heroTrack").style.transform = `translateX(-${currentHero * 100}%)`;
   document.querySelectorAll(".hero-dot").forEach((d, i) => d.classList.toggle("active", i === currentHero));
 }
-
 function nextHero() {
   const total = document.querySelectorAll(".hero-slide").length;
   currentHero = (currentHero + 1) % total;
   updateHero();
 }
-
 function resetHeroTimer() {
   clearInterval(heroTimer);
   heroTimer = setInterval(nextHero, 4000);
 }
 
 window.addEventListener("click", function(e) {
-  const modal = document.getElementById("checkoutModal");
-  if(e.target === modal) closeModal("checkoutModal");
+  ["checkoutModal","authModal","trackModal"].forEach(id => {
+    const modal = document.getElementById(id);
+    if(e.target === modal) closeModal(id);
+  });
 });
+
+window.addEventListener("keydown", function(e){ if(e.key === 'Escape'){ closeAllPanels(); ["checkoutModal","authModal","trackModal"].forEach(closeModal); } });
 
 renderProducts();
 updateCart();
 renderHeroDots();
 resetHeroTimer();
+updateAccountUI();
+renderSearchResults(products);
 </script>
 </body>
 </html>
