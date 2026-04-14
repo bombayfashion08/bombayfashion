@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bombay Fashion</title>
+<title>Urban Monk</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -189,7 +189,7 @@ footer{padding:24px 20px;border-top:1px solid #ececec;text-align:center;backgrou
     <div class="header-side">
       <button class="icon-btn" onclick="toggleMenu()" aria-label="Open menu"><i class="fas fa-bars"></i></button>
     </div>
-    <div class="logo">BOMBAY FASHION</div>
+    <div class="logo">URBAN MONK</div>
     <div class="header-side">
       <button class="icon-btn" onclick="toggleSearchPanel()" aria-label="Open search"><i class="fas fa-search"></i></button>
       <button class="icon-btn" onclick="toggleCart()" aria-label="Open cart"><i class="fas fa-bag-shopping"></i><span class="badge" id="cartCount">0</span></button>
@@ -298,18 +298,18 @@ footer{padding:24px 20px;border-top:1px solid #ececec;text-align:center;backgrou
 <section class="contact" id="contact">
   <div class="contact-wrap">
     <div class="box">
-      <h3>Contact Bombay Fashion</h3>
+      <h3>Contact Urban Monk</h3>
       <p>Reach us for direct orders, questions, and styling support.</p>
       <div class="list">
-        <div class="item"><i class="fas fa-phone"></i><div><strong>Phone</strong><br><a href="tel:+919321319778">+91 9321319778</a></div></div>
-        <div class="item"><i class="fab fa-whatsapp"></i><div><strong>WhatsApp</strong><br><a href="https://wa.me/919321319778" target="_blank">Chat on WhatsApp</a></div></div>
-        <div class="item"><i class="fab fa-instagram"></i><div><strong>Instagram</strong><br><a href="https://www.instagram.com/im.shaikh.mallik?igsh=ZnozYnY1dnJrY3dr" target="_blank">@im.shaikh.mallik</a></div></div>
+        <div class="item"><i class="fas fa-phone"></i><div><strong>Phone</strong><br><a href="tel:+919136667333">+91 9136667333</a></div></div>
+        <div class="item"><i class="fab fa-whatsapp"></i><div><strong>WhatsApp</strong><br><a href="https://wa.me/919136667333" target="_blank">Chat on WhatsApp</a></div></div>
+        <div class="item"><i class="fab fa-instagram"></i><div><strong>Instagram</strong><br><a href="https://www.instagram.com/urban.monnk?igsh=ZnozYnY1dnJrY3dr" target="_blank">@urban.monnk</a></div></div>
         <div class="item"><i class="fas fa-user"></i><div><strong>Account</strong><br><a href="javascript:void(0)" onclick="openAuthModal('login')">Login / Sign Up</a></div></div>
       </div>
     </div>
     <div class="box" id="location">
       <h3>Store Info</h3>
-      <p>Bombay Fashion, Vikhroli East, Tagore Nagar Group 4, Mumbai, Maharashtra, India.</p>
+      <p>Urban Monk, Vikhroli East, Tagore Nagar Group 8, Mumbai, Maharashtra, India.</p>
       <div class="list">
         <div class="item"><i class="fas fa-location-dot"></i><div><strong>Address</strong><br>Vikhroli East, Tagore Nagar Group 4, Mumbai, Maharashtra, India</div></div>
         <div class="item"><i class="fas fa-truck"></i><div><strong>Order Support</strong><br>Quick updates through WhatsApp and phone</div></div>
@@ -322,9 +322,9 @@ footer{padding:24px 20px;border-top:1px solid #ececec;text-align:center;backgrou
   </div>
 </section>
 
-<footer>© 2026 Bombay Fashion • Premium Clothing Collection</footer>
+<footer>© 2026 Urban Monk • Premium Clothing Collection</footer>
 
-<a href="https://wa.me/919321319778" class="whatsapp-btn" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+<a href="https://wa.me/919136667333" class="whatsapp-btn" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
 <div class="backdrop" id="backdrop" onclick="closeAllPanels()"></div>
 
 <aside class="side-panel menu-panel" id="menuDrawer">
@@ -456,8 +456,8 @@ footer{padding:24px 20px;border-top:1px solid #ececec;text-align:center;backgrou
 </div>
 
 <script>
-const whatsappNumber = "919321319778";
-const upiId = "mallikrehan78600@oksbi";
+const whatsappNumber = "919136667333";
+const upiId = "";
 const onlineDiscount = 50;
 
 const products = [
@@ -739,7 +739,7 @@ function getOrderDetails() {
 
 function buildOrderMessage(paymentMethod, totalAmount, discountApplied) {
   const order = getOrderDetails();
-  return `New Order - Bombay Fashion\nCustomer Name: ${order.name}\nPhone: ${order.phone}\nAddress: ${order.address}\nItems:\n${cart.map(item => `${item.name} | Color: ${item.color} | Size: ${item.size} | Qty: ${item.qty} = ₹${item.price * item.qty}`).join('\n')}\nSubtotal: ₹${order.subtotal}\nDiscount: ₹${discountApplied}\nTotal Payable: ₹${totalAmount}\nPayment Method: ${paymentMethod}`;
+  return `New Order - Urban Monk\nCustomer Name: ${order.name}\nPhone: ${order.phone}\nAddress: ${order.address}\nItems:\n${cart.map(item => `${item.name} | Color: ${item.color} | Size: ${item.size} | Qty: ${item.qty} = ₹${item.price * item.qty}`).join('\n')}\nSubtotal: ₹${order.subtotal}\nDiscount: ₹${discountApplied}\nTotal Payable: ₹${totalAmount}\nPayment Method: ${paymentMethod}`;
 }
 
 function placeCODOrder() {
@@ -757,7 +757,7 @@ function payViaApp(app) {
   if(!validateCheckout()) return;
   const order = getOrderDetails();
   const upi = encodeURIComponent(upiId);
-  const name = encodeURIComponent("Bombay Fashion");
+  const name = encodeURIComponent("Urban Monk");
   const amount = order.onlineTotal;
   let paymentLink = "";
   let paymentName = "UPI";
@@ -773,7 +773,7 @@ function payViaApp(app) {
 }
 
 function openWhatsAppGeneral() {
-  const msg = "Hello Bombay Fashion, I want help with premium fashion products.";
+  const msg = "Hello Urban Monk, I want help with premium fashion products.";
   window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(msg)}`, "_blank");
 }
 
@@ -801,14 +801,14 @@ function submitAuth() {
     return;
   }
   const displayName = name || email.split('@')[0];
-  localStorage.setItem("bombayFashionUser", JSON.stringify({name: displayName, email}));
+  localStorage.setItem("urbanmonkUser", JSON.stringify({name: displayName, email}));
   updateAccountUI();
   closeModal("authModal");
   showToast(authMode === "login" ? "Logged in successfully" : "Account created successfully");
 }
 
 function updateAccountUI() {
-  const saved = localStorage.getItem("bombayFashionUser");
+  const saved = localStorage.getItem("urbanmonkUser");
   const chip = document.getElementById("accountChip");
   if(saved) {
     try {
@@ -834,7 +834,7 @@ function sendTrackRequest() {
     alert("Please enter order ID and phone number");
     return;
   }
-  const msg = `Hello Bombay Fashion, I want to track my order. Order ID: ${orderId}. Phone: ${phone}.`;
+  const msg = `Hello Urban Monk, I want to track my order. Order ID: ${orderId}. Phone: ${phone}.`;
   window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(msg)}`, "_blank");
 }
 
