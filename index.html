@@ -278,6 +278,25 @@
       .slide-controls button{width:40px;height:40px}
     }
 
+
+    /* Only sliding sections by default */
+    #productGrid{
+      display:none;
+    }
+    #productGrid.search-active{
+      display:grid;
+      margin-bottom:24px;
+    }
+    .search-result-title{
+      display:none;
+      margin:0 0 14px;
+      font-size:22px;
+      color:var(--blue);
+      font-weight:950;
+      letter-spacing:-.4px;
+    }
+    .search-result-title.show{display:block}
+
   </style>
 </head>
 <body>
@@ -358,33 +377,34 @@
         <div class="toolbar">
           <input id="searchInput" class="search" placeholder="Search drinks, candy, sandwich pie..." oninput="renderProducts()">
           <button class="primary-btn" onclick="focusSearch()">Search</button>
-          <div id="searchNote" class="quick-search-note">Type product name and press Search.</div>
+          <div id="searchNote" class="quick-search-note">Type product name. Results will show above sliders.</div>
           <button class="chip active" onclick="setFilter('all', this)">All</button>
           <button class="chip" onclick="setFilter('drink', this)">Drinks</button>
           <button class="chip" onclick="setFilter('candy', this)">Candy</button>
           <button class="chip" onclick="setFilter('snack', this)">Snack</button>
         </div>
 
+        <h3 class="search-result-title" id="searchResultTitle">Search Results</h3>
         <div class="products" id="productGrid"></div>
 
         <div class="category-slider-section" id="categorySliders">
           <div class="cat-block">
             <div class="cat-head">
-              <div class="cat-title"><h3>Drink Sliding Section</h3><p>Swipe left-right for drinks and energy cans.</p></div>
+              <div class="cat-title"><h3>Drink Section</h3><p>Drinks and energy cans.</p></div>
               <div class="slide-controls"><button onclick="slideRow('drinkSlider',-1)">‹</button><button onclick="slideRow('drinkSlider',1)">›</button></div>
             </div>
             <div class="product-slider" id="drinkSlider"></div>
           </div>
           <div class="cat-block">
             <div class="cat-head">
-              <div class="cat-title"><h3>Candy Sliding Section</h3><p>Swipe for candy jars, popping candy and toy candy.</p></div>
+              <div class="cat-title"><h3>Candy Section</h3><p>Candy jars, popping candy and toy candy.</p></div>
               <div class="slide-controls"><button onclick="slideRow('candySlider',-1)">‹</button><button onclick="slideRow('candySlider',1)">›</button></div>
             </div>
             <div class="product-slider" id="candySlider"></div>
           </div>
           <div class="cat-block">
             <div class="cat-head">
-              <div class="cat-title"><h3>Snack Sliding Section</h3><p>Swipe for snacks and packed food cartons.</p></div>
+              <div class="cat-title"><h3>Snack Section</h3><p>Snacks and packed food cartons.</p></div>
               <div class="slide-controls"><button onclick="slideRow('snackSlider',-1)">‹</button><button onclick="slideRow('snackSlider',1)">›</button></div>
             </div>
             <div class="product-slider" id="snackSlider"></div>
@@ -657,16 +677,35 @@
       activeFilter = filter;
       document.querySelectorAll(".chip").forEach(c=>c.classList.remove("active"));
       el.classList.add("active");
-      renderProducts();
+      const map = {drink:"drinkSlider", candy:"candySlider", snack:"snackSlider"};
+      if(filter === "all"){
+        document.getElementById("categorySliders").scrollIntoView({behavior:"smooth", block:"start"});
+      }else{
+        document.getElementById(map[filter])?.closest(".cat-block")?.scrollIntoView({behavior:"smooth", block:"start"});
+      }
+      renderCategorySliders();
     }
 
     function renderProducts(){
       const grid = document.getElementById("productGrid");
+      const title = document.getElementById("searchResultTitle");
       const q = document.getElementById("searchInput").value.toLowerCase().trim();
-      const filtered = products.filter(p => 
-        (activeFilter === "all" || p.category === activeFilter) &&
-        (p.name.toLowerCase().includes(q) || p.details.toLowerCase().includes(q))
+
+      // No normal scrolling list. Default website shows only sliding sections.
+      if(!q){
+        grid.innerHTML = "";
+        grid.classList.remove("search-active");
+        if(title) title.classList.remove("show");
+        renderCategorySliders();
+        return;
+      }
+
+      const filtered = products.filter(p =>
+        (p.name.toLowerCase().includes(q) || p.details.toLowerCase().includes(q) || p.tag.toLowerCase().includes(q))
       );
+
+      grid.classList.add("search-active");
+      if(title) title.classList.add("show");
 
       grid.innerHTML = filtered.map(p => `
         <article class="product">
@@ -696,6 +735,8 @@
       if(!filtered.length){
         grid.innerHTML = `<div class="empty" style="grid-column:1/-1">No product found. Try another search.</div>`;
       }
+
+      renderCategorySliders();
     }
 
     function changePreviewQty(id, step){
@@ -853,14 +894,16 @@
     }
 
     function renderCategorySliders(){
+      const q = (document.getElementById("searchInput")?.value || "").toLowerCase().trim();
+      const match = p => !q || p.name.toLowerCase().includes(q) || p.details.toLowerCase().includes(q) || p.tag.toLowerCase().includes(q);
       const groups = {
-        drinkSlider: products.filter(p=>p.category==="drink"),
-        candySlider: products.filter(p=>p.category==="candy"),
-        snackSlider: products.filter(p=>p.category==="snack")
+        drinkSlider: products.filter(p=>p.category==="drink" && match(p)),
+        candySlider: products.filter(p=>p.category==="candy" && match(p)),
+        snackSlider: products.filter(p=>p.category==="snack" && match(p))
       };
       Object.entries(groups).forEach(([id, arr])=>{
         const row = document.getElementById(id);
-        if(row) row.innerHTML = arr.map(productCard).join("");
+        if(row) row.innerHTML = arr.length ? arr.map(productCard).join("") : `<div class="empty" style="min-width:260px">No product found here.</div>`;
       });
     }
 
